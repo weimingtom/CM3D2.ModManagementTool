@@ -146,5 +146,15 @@ namespace CM3D2.ModManager.Mod
 
             return null;
         }
+
+        public void Clear()
+        {
+            modFiles.Clear();
+            menuFiles.Clear();
+            texFiles.Clear();
+            matFiles.Clear();
+            modelFiles.Clear();
+            presetFiles.Clear();
+        }
     }
 }

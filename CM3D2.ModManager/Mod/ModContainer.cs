@@ -84,17 +84,34 @@ namespace CM3D2.ModManager.Mod
                 readFolder();
             }
             
+            Reload();
+        }
+
+        public void Reload()
+        {
+            fileNameDict.Clear();
+            List<string> invalids = new List<string>();
             foreach (string relativePath in CacheStore.relativePaths)
             {
                 messages("로드: " + relativePath);
 
-                BaseFile mod = BaseFile.createFileFromPath(rootDir, relativePath);
+                BaseFile mod = null;
+                try
+                {
+                    mod = BaseFile.createFileFromPath(rootDir, relativePath);
+                }
+                catch (FileNotFoundException fne)
+                {
+                    invalids.Add(relativePath);
+                }
                 if(mod == null)
                 {
                     continue;
                 }
                 fileNameDict.insert( Path.GetFullPath(rootDir + relativePath) , mod);
             }
+            
+            CacheStore.UnregisterRelativePaths(invalids);
         }
 
         public void analyzeMods(bool force)

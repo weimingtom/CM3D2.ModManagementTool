@@ -1,4 +1,6 @@
-﻿namespace CM3D2.ModManager.Frm
+﻿using System.Windows.Forms;
+
+namespace CM3D2.ModManager.Frm
 {
     partial class Frm_ProblemViewer
     {
@@ -81,7 +83,7 @@
             this.tb_ErrorMessage.Multiline = true;
             this.tb_ErrorMessage.Name = "tb_ErrorMessage";
             this.tb_ErrorMessage.ReadOnly = true;
-            this.tb_ErrorMessage.Size = new System.Drawing.Size(566, 136);
+            this.tb_ErrorMessage.Size = new System.Drawing.Size(564, 136);
             this.tb_ErrorMessage.TabIndex = 4;
             // 
             // label1
@@ -111,8 +113,6 @@
             this.lb_FileList.Name = "lb_FileList";
             this.lb_FileList.Size = new System.Drawing.Size(568, 172);
             this.lb_FileList.TabIndex = 7;
-            this.lb_FileList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lb_FileList_MouseClick);
-            this.lb_FileList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lb_FileList_MouseDoubleClick);
             // 
             // label2
             // 
@@ -121,7 +121,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(407, 12);
             this.label2.TabIndex = 8;
-            this.label2.Text = "파일 목록 (왼쪽 더블 클릭으로 1번, 오른쪽 마우스버튼으로 2번 파일 선택)";
+            this.label2.Text = "파일 목록 (F2, F3 버튼으로 현재 선택중인 파일을 1번, 2번 파일로 설정 할 수 있습니다.)";
             // 
             // lbl_FirstFile
             // 
@@ -222,9 +222,12 @@
             this.Controls.Add(this.lbl_filePath);
             this.Controls.Add(this.lbl_fileName);
             this.Controls.Add(this.lb_Errors);
+            this.KeyPreview = true;
             this.Name = "Frm_ProblemViewer";
             this.Text = "오류 탐색기";
             this.Load += new System.EventHandler(this.Frm_ProblemViewer_Load);
+            this.Resize += new System.EventHandler(this.Frm_ProblemViewer_Resize);
+            this.KeyDown += new KeyEventHandler(this.Frm_ProblemViewer_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

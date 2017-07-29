@@ -40,6 +40,23 @@ namespace CM3D2.ModManager
             processingThread.Start();
         }
 
+        public void SafeClose()
+        {
+            SafeCloseInvoke(null);
+        }
+
+        public void SafeCloseInvoke(string dummy)
+        {
+            if (InvokeRequired)
+            {
+                //God... why Action require one argument...?
+                Invoke( new Action<string>(SafeCloseInvoke), "");
+                return;
+            }
+            
+            Close();
+        }
+
         public void updateStatus(string status)
         {
             if (this.InvokeRequired)
@@ -96,24 +113,40 @@ namespace CM3D2.ModManager
         {
             updateStatus("시바리스: " + boolToString(isSybaris));
 
-            updateStatus("시스템 초기화 및 사용 가능한 내장 아이템 탐색");
-            Injected.DLLManager.Initialize();
-            Injected.GameUty.Init();
+            if (Injected.GameUty.MenuFiles != null)
+            {
+                updateStatus("시스템이 이미 초기화 되어 있음, 넘어감");
+            }
+            else
+            {
+                updateStatus("시스템 초기화 및 사용 가능한 내장 아이템 탐색");
+                Injected.DLLManager.Initialize();
+                Injected.GameUty.Init();
+            }
 
-            updateStatus("모드목록을 만드는중...");
-            ModContainer.MessageReceiver receiver = new ModContainer.MessageReceiver(MessageReceived);
-            ModContainer.createModContainer( ConfigManager.Single.getRoot() , receiver);
-
+            if (ModContainer.Single != null)
+            {
+                updateStatus("모드목록을 재확인 하는중...");
+                ModContainer.Single.Reload();
+            }
+            else
+            {
+                updateStatus("모드목록을 만드는중...");
+                ModContainer.MessageReceiver receiver = new ModContainer.MessageReceiver(MessageReceived);
+                ModContainer.createModContainer(ConfigManager.Single.getRoot(), receiver);
+            }
             updateStatus("모드의 문제점을 찾는중...");
-            ModContainer.Single.analyzeMods(false);
+            ModContainer.Single.analyzeMods(true);
 
-            updateStatus("문제점 목록을 내보내는중...");
-            ModContainer.Single.dumpErrorMessages("_errors.txt");
+            //updateStatus("문제점 목록을 내보내는중...");
+            //ModContainer.Single.dumpErrorMessages("_errors.txt");
 
-            updateStatus("만든 목록의 일부를 파일에 기록하는중...");
+            updateStatus("만든 목록을 파일에 기록하는중...");
             ModContainer.Single.writeCache();
 
             updateStatus("초기화 완료");
+            
+            SafeClose();
         }
     }
 }

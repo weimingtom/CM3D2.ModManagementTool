@@ -18,7 +18,7 @@ namespace CM3D2.ModManager.Mod.File
             string path = Path.GetFullPath(rootDir + relativePath);
             if( !System.IO.File.Exists(path) )
             {
-                return null;
+                throw new FileNotFoundException();
             }
 
             string exten = Path.GetExtension(path).ToLower();
@@ -85,6 +85,8 @@ namespace CM3D2.ModManager.Mod.File
 
             this.root = root;
             this.relativePath = path;
+
+            duplicateFiles.Add(this);
         }
 
         /**
@@ -94,7 +96,7 @@ namespace CM3D2.ModManager.Mod.File
         {
             errors.Clear();
 
-            if (duplicateFiles.Count != 0) {
+            if (duplicateFiles.Count != 1) {
                 errors.Add(new DuplicateProblem(this));
             }
         }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using CM3D2.ModManager.Mod.File;
+using CM3D2.ModManager.Utils;
 
 namespace CM3D2.ModManager.Mod
 {
@@ -47,9 +48,21 @@ namespace CM3D2.ModManager.Mod
             this.relativePaths.Add(relativePath);
         }
 
+        public void UnregisterRelativePaths(List<string> relativePaths)
+        {
+            Dictionary<string, object> cache = new Dictionary<string, object>();
+            foreach (string str in relativePaths)
+            {
+                cache[str] = null;
+            }
+
+            this.relativePaths.RemoveAll(item => cache.ContainsKey(item));
+        }
+
         //사라진 파일의 레퍼런스 정보를 삭제합니다
         public void CleanUp()
         {
+            
             Dictionary<string, object> cache = new Dictionary<string, object>();
             foreach (string str in relativePaths)
             {

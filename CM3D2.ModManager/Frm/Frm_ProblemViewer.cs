@@ -43,8 +43,15 @@ namespace CM3D2.ModManager.Frm
             return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
         }
 
-
-
+        public BaseFile getListedFile(int inx)
+        {
+            if (selected is DuplicateProblem)
+            {
+                return selected.getIssueFile().duplicateFiles[inx];
+            }
+            return null;
+        }
+        
         private List<BaseProblem> problems = new List<BaseProblem>();
 
         private const string notInited = "설정 안됨";
@@ -156,7 +163,7 @@ namespace CM3D2.ModManager.Frm
         {
             if(selected != null)
             {
-                Process.Start("explorer.exe", selected.getIssueFile().path);
+                Process.Start("explorer.exe", "/select,\"" + selected.getIssueFile().path + "\"");
             }
         }
 
@@ -164,34 +171,11 @@ namespace CM3D2.ModManager.Frm
         {
             if(first_file != null)
             {
-                Process.Start("explorer.exe", first_file.path);
+                Process.Start("explorer.exe", "/select,\"" + first_file.path + "\"");
             }
         }
-
-        private void lb_FileList_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (selected == null)
-            {
-                return;
-            }
-
-            if(selected.getIssueFile().duplicateFiles.Count == 0)
-            {
-                return;
-            }
-
-            if(e.Button == MouseButtons.Right)
-            {
-                try
-                {
-                    second_inx = lb_FileList.SelectedIndex;
-                    setSecondFile( selected.getIssueFile().duplicateFiles[second_inx] );
-                }
-                catch { }
-            }
-        }
-
-        private void lb_FileList_MouseDoubleClick(object sender, MouseEventArgs e)
+        
+        private void Frm_ProblemViewer_KeyDown(object sender, KeyEventArgs e)
         {
             if (selected == null)
             {
@@ -203,14 +187,18 @@ namespace CM3D2.ModManager.Frm
                 return;
             }
 
-            if (e.Button == MouseButtons.Left)
+
+            if (e.KeyCode == Keys.F2)
             {
-                try
-                {
-                    first_inx = lb_FileList.SelectedIndex;
-                    setFirstFile(selected.getIssueFile().duplicateFiles[first_inx]);
-                }
-                catch { }
+                first_inx = lb_FileList.SelectedIndex;
+                setFirstFile( getListedFile(first_inx) );
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.F3)
+            {
+                second_inx = lb_FileList.SelectedIndex;
+                setSecondFile( getListedFile(second_inx) );
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -282,7 +270,7 @@ namespace CM3D2.ModManager.Frm
                 return;
             }
 
-            File.Delete(first_file.root);
+            File.Delete(first_file.path);
             File.Move(second_file.path, first_file.path);
 
             selected.getIssueFile().duplicateFiles[first_inx] = new BaseFile(ConfigManager.Single.getRoot(), first_file.relativePath);
@@ -292,6 +280,12 @@ namespace CM3D2.ModManager.Frm
             //제거되었으므로 더이상 유효하지 않음
             selected.getIssueFile().duplicateFiles.RemoveAt(second_inx);
             second_file = null;
+        }
+
+        private void Frm_ProblemViewer_Resize(object sender, EventArgs e)
+        {
+            tb_ErrorMessage.Width = Width - tb_ErrorMessage.Location.X - 32;
+            lb_FileList.Width = Width - lb_FileList.Location.X - 32;
         }
     }
 }
