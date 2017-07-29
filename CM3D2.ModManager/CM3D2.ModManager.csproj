@@ -67,13 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form\Frm_Loader.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form\Frm_Loader.Designer.cs">
-      <DependentUpon>Frm_Loader.cs</DependentUpon>
-    </Compile>
     <Compile Include="Mod\CMExtensions.cs" />
+    <Compile Include="Mod\Problem\BaseProblem.cs" />
     <Compile Include="Mod\File\BaseFile.cs" />
     <Compile Include="Mod\File\MatFile.cs" />
     <Compile Include="Mod\File\MenuFile.cs" />
@@ -82,16 +77,18 @@
     <Compile Include="Mod\File\PresetFile.cs" />
     <Compile Include="Mod\File\TexFile.cs" />
     <Compile Include="Mod\ModDictionary.cs" />
-    <Compile Include="Mod\ReferenceFile.cs" />
+    <Compile Include="Mod\Problem\DuplicateProblem.cs" />
+    <Compile Include="Mod\Problem\InternalProblem.cs" />
+    <Compile Include="Mod\Problem\InvalidCMFileProblem.cs" />
+    <Compile Include="Mod\Problem\InvalidPathProblem.cs" />
+    <Compile Include="Mod\Problem\MissingFileProblem.cs" />
+    <Compile Include="Mod\File\ReferenceFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ConfigManager.cs" />
     <Compile Include="Utils\FileManager.cs" />
     <Compile Include="Utils\Include.cs" />
     <Compile Include="Mod\ModContainer.cs" />
-    <EmbeddedResource Include="Form\Frm_Loader.resx">
-      <DependentUpon>Frm_Loader.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -115,6 +112,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Frm\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

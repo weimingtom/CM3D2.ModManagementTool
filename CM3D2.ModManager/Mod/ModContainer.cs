@@ -104,12 +104,12 @@ namespace CM3D2.ModManager.Utils
 
         private void dumpErrorMessages(BaseFile file, StreamWriter writer)
         {
-            if (file.errorMessages.Count != 0)
+            if (file.errors.Count != 0)
             {
                 writer.WriteLine(file.relativePath);
                 writer.WriteLine("--------------------");
 
-                foreach (string message in file.errorMessages)
+                foreach (string message in file.errors)
                 {
                     writer.WriteLine(message);
                 }

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+using CM3D2.ModManager.Mod.Problem;
+
 namespace CM3D2.ModManager.Utils
 {
     /**
@@ -73,7 +75,7 @@ namespace CM3D2.ModManager.Utils
 
         public readonly List<BaseFile> duplicateFiles = new List<BaseFile>();
 
-        public readonly List<string> errorMessages = new List<string>();
+        public readonly List<BaseProblem> errors = new List<BaseProblem>();
 
         public BaseFile(string root, string path)
         {
@@ -106,15 +108,10 @@ namespace CM3D2.ModManager.Utils
         */
         public virtual void Verify()
         {
-            errorMessages.Clear();
+            errors.Clear();
 
             if (duplicateFiles.Count != 0) {
-                errorMessages.Add("파일이 두개이상 존재합니다.");
-                errorMessages.Add(dumpFile(path, relativePath, "\t"));
-                foreach (BaseFile file in duplicateFiles)
-                {
-                    errorMessages.Add(dumpFile(file.path, file.relativePath, "\t"));
-                }
+                errors.Add(new DuplicateProblem(this));
             }
         }
 
