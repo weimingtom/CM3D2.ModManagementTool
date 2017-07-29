@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.IO;
+using System.Security.Cryptography;
 
 namespace CM3D2.ModManager.Utils
 {
@@ -510,12 +511,31 @@ namespace CM3D2.ModManager.Utils
 
             if (duplicateFiles.Count != 0) {
                 errorMessages.Add("파일이 두개이상 존재합니다.");
-                errorMessages.Add("\t" + relativePath + "(마지막 수정일: " + File.GetLastWriteTime(path).ToLongDateString() + ")");
+                errorMessages.Add(dumpFile(path, relativePath, "\t"));
                 foreach (BaseFile file in duplicateFiles)
                 {
-                    errorMessages.Add("\t" + file.relativePath + "(마지막 수정일: " + File.GetLastWriteTime(file.path).ToLongDateString() + ")");
+                    errorMessages.Add(dumpFile(file.path, file.relativePath, "\t"));
                 }
             }
+        }
+
+        /**
+         * 대상 파일의 정보를 덤프합니다.
+         * 
+         * Verify에서 주로 쓰이기 때문에, 중복 체크가 가능한 파일 크기와 마지막 수정일이 포함됩니다.
+        */
+        public string dumpFile(string path, string displayPath, string offset = "")
+        {
+            if(!File.Exists(path))
+            {
+                return offset + displayPath + " 파일이 없습니다.";
+            }
+
+            DateTime dt = File.GetLastWriteTime(path);
+
+            return offset + displayPath + "\r\n" +
+                offset + "\t마지막 수정: " + dt.ToLongDateString() + " " + dt.ToLongTimeString() + "\r\n" +
+                offset + "\t파일 크기: " + new FileInfo(path).Length;
         }
 
         /**
@@ -699,82 +719,85 @@ namespace CM3D2.ModManager.Utils
         {
             base.Verify();
 
-            byte[] data = File.ReadAllBytes(this.path);
-            BinaryReader binaryReader = null;
-            try
+            if (!isFromCache)
             {
-                binaryReader = new BinaryReader(new MemoryStream(data), Encoding.UTF8);
-                string text = binaryReader.ReadString();
-                if (text != "CM3D2_MENU")
+                byte[] data = File.ReadAllBytes(this.path);
+                BinaryReader binaryReader = null;
+                try
                 {
-                    errorMessages.Add("올바르지 않은 메뉴파일");
-                    return;
-                }
-                binaryReader.ReadInt32();
-                string path = binaryReader.ReadString();
-                binaryReader.ReadString();
-                binaryReader.ReadString();
-                binaryReader.ReadString();
-                binaryReader.ReadInt32();
-                int num = 0;
-                string text2 = null;
-                string text3 = string.Empty;
-                string text4 = string.Empty;
-                string empty = string.Empty;
-                for (;;)
-                {
-                    int num2 = (int)binaryReader.ReadByte();
-                    text4 = text3;
-                    text3 = string.Empty;
-                    if (num2 == 0)
+                    binaryReader = new BinaryReader(new MemoryStream(data), Encoding.UTF8);
+                    string text = binaryReader.ReadString();
+                    if (text != "CM3D2_MENU")
                     {
-                        break;
+                        errorMessages.Add("올바르지 않은 메뉴파일");
+                        return;
                     }
-                    for (int i = 0; i < num2; i++)
+                    binaryReader.ReadInt32();
+                    string path = binaryReader.ReadString();
+                    binaryReader.ReadString();
+                    binaryReader.ReadString();
+                    binaryReader.ReadString();
+                    binaryReader.ReadInt32();
+                    int num = 0;
+                    string text2 = null;
+                    string text3 = string.Empty;
+                    string text4 = string.Empty;
+                    string empty = string.Empty;
+                    for (;;)
                     {
-                        text3 = text3 + "\"" + binaryReader.ReadString() + "\" ";
-                    }
-                    if (!(text3 == string.Empty))
-                    {
-                        string stringCom = Injected.UTY.GetStringCom(text3);
-                        string[] stringList = Injected.UTY.GetStringList(text3);
-
-                        foreach (string value in stringList)
+                        int num2 = (int)binaryReader.ReadByte();
+                        text4 = text3;
+                        text3 = string.Empty;
+                        if (num2 == 0)
                         {
-                            string lower = value.ToLower();
-                            if (lower.Contains("*"))
+                            break;
+                        }
+                        for (int i = 0; i < num2; i++)
+                        {
+                            text3 = text3 + "\"" + binaryReader.ReadString() + "\" ";
+                        }
+                        if (!(text3 == string.Empty))
+                        {
+                            string stringCom = Injected.UTY.GetStringCom(text3);
+                            string[] stringList = Injected.UTY.GetStringList(text3);
+
+                            foreach (string value in stringList)
                             {
-                                continue;
-                            }
-                            string exten = Path.GetFileName(lower);
-                            if (isCM3D2Extension(exten))
-                            {
-                                references.Add(value);
+                                string lower = value.ToLower();
+                                if (lower.Contains("*"))
+                                {
+                                    continue;
+                                }
+                                string exten = Path.GetFileName(lower);
+                                if (isCM3D2Extension(exten))
+                                {
+                                    references.Add(value);
+                                }
                             }
                         }
                     }
                 }
-            }
-            catch (ArgumentException ae)
-            {
-                var invalids = System.IO.Path.GetInvalidPathChars().Select(x => Convert.ToByte(x));
-
-                var found = System.Text.Encoding.Default.GetBytes(path).Intersect(invalids);
-
-                errorMessages.Add("부적절한 문자 때문에 접근할수 없는 경로: " + path);
-            }
-            catch (Exception e)
-            {
-                errorMessages.Add("내부 에러: " + e.Message);
-            }
-            finally
-            {
-                try
+                catch (ArgumentException ae)
                 {
-                    if (binaryReader != null)
-                        binaryReader.Close();
+                    var invalids = System.IO.Path.GetInvalidPathChars().Select(x => Convert.ToByte(x));
+
+                    var found = System.Text.Encoding.Default.GetBytes(path).Intersect(invalids);
+
+                    errorMessages.Add("부적절한 문자 때문에 접근할수 없는 경로: " + path);
                 }
-                catch { }
+                catch (Exception e)
+                {
+                    errorMessages.Add("내부 에러: " + e.Message);
+                }
+                finally
+                {
+                    try
+                    {
+                        if (binaryReader != null)
+                            binaryReader.Close();
+                    }
+                    catch { }
+                }
             }
 
             foreach (string path in references)
