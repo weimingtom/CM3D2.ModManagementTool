@@ -7,8 +7,8 @@ using CM3D2.ModManager.Mod.Problem;
 namespace CM3D2.ModManager.Utils
 {
     /**
- * ÆÄÀÏÀÇ Á¤º¸¸¦ ±â·ÏÇÏ´Âµ¥ ¾²ÀÌ´Â ±âÃÊ Å¬·¡½º
-*/
+     * íŒŒì¼ì˜ ì •ë³´ë¥¼ ê¸°ë¡í•˜ëŠ”ë° ì“°ì´ëŠ” ê¸°ì´ˆ í´ë˜ìŠ¤
+    */
 
     public class BaseFile
     {
@@ -61,15 +61,15 @@ namespace CM3D2.ModManager.Utils
         }
 
         /**
-            Ä³½ÃµÇ¾î ÀÖ°Å³ª Æú´õ °Ë»öÀ¸·Î ¾òÀº °æ·Î
+            ìºì‹œë˜ì–´ ìˆê±°ë‚˜ í´ë” ê²€ìƒ‰ìœ¼ë¡œ ì–»ì€ ê²½ë¡œ
 
-            VerifyÀÇ ½ÇÇàÀü ¹İµå½Ã Á¸Àç¿©ºÎ¸¦ È®ÀÎÇØ¾ß ÇÕ´Ï´Ù.
+            Verifyì˜ ì‹¤í–‰ì „ ë°˜ë“œì‹œ ì¡´ì¬ì—¬ë¶€ë¥¼ í™•ì¸í•´ì•¼ í•©ë‹ˆë‹¤.
         */
         public readonly string path;
 
         public readonly string root;
         /**
-         * ¸ğµå Æú´õ¸¦ Á¦¿ÜÇÑ °æ·Î
+         * ëª¨ë“œ í´ë”ë¥¼ ì œì™¸í•œ ê²½ë¡œ
         */
         public readonly string relativePath;
 
@@ -86,7 +86,7 @@ namespace CM3D2.ModManager.Utils
         }
         
         /**
-         * ÀúÀåµÈ µ¥ÀÌÅÍ·Î ºÎÅÍ ÆÄÀÏÁ¤º¸¸¦ ¸¸µì´Ï´Ù
+         * ì €ì¥ëœ ë°ì´í„°ë¡œ ë¶€í„° íŒŒì¼ì •ë³´ë¥¼ ë§Œë“­ë‹ˆë‹¤
         */
         public BaseFile(BinaryReader reader, string root)
         {
@@ -104,7 +104,7 @@ namespace CM3D2.ModManager.Utils
         }
 
         /**
-            ´ë»óÆÄÀÏÀÇ ¹®Á¦Á¡À» Ã£°í, Á¸ÀçÇÏ´Â°æ¿ì errorList¿¡ ³Ö½À´Ï´Ù.
+            ëŒ€ìƒíŒŒì¼ì˜ ë¬¸ì œì ì„ ì°¾ê³ , ì¡´ì¬í•˜ëŠ”ê²½ìš° errorListì— ë„£ìŠµë‹ˆë‹¤.
         */
         public virtual void Verify()
         {
@@ -116,26 +116,26 @@ namespace CM3D2.ModManager.Utils
         }
 
         /**
-         * ´ë»ó ÆÄÀÏÀÇ Á¤º¸¸¦ ´ıÇÁÇÕ´Ï´Ù.
+         * ëŒ€ìƒ íŒŒì¼ì˜ ì •ë³´ë¥¼ ë¤í”„í•©ë‹ˆë‹¤.
          * 
-         * Verify¿¡¼­ ÁÖ·Î ¾²ÀÌ±â ¶§¹®¿¡, Áßº¹ Ã¼Å©°¡ °¡´ÉÇÑ ÆÄÀÏ Å©±â¿Í ¸¶Áö¸· ¼öÁ¤ÀÏÀÌ Æ÷ÇÔµË´Ï´Ù.
+         * Verifyì—ì„œ ì£¼ë¡œ ì“°ì´ê¸° ë•Œë¬¸ì—, ì¤‘ë³µ ì²´í¬ê°€ ê°€ëŠ¥í•œ íŒŒì¼ í¬ê¸°ì™€ ë§ˆì§€ë§‰ ìˆ˜ì •ì¼ì´ í¬í•¨ë©ë‹ˆë‹¤.
         */
         public string dumpFile(string path, string displayPath, string offset = "")
         {
             if(!File.Exists(path))
             {
-                return offset + displayPath + " ÆÄÀÏÀÌ ¾ø½À´Ï´Ù.";
+                return offset + displayPath + " íŒŒì¼ì´ ì—†ìŠµë‹ˆë‹¤.";
             }
 
             DateTime dt = File.GetLastWriteTime(path);
 
             return offset + displayPath + "\r\n" +
-                   offset + "\t¸¶Áö¸· ¼öÁ¤: " + dt.ToLongDateString() + " " + dt.ToLongTimeString() + "\r\n" +
-                   offset + "\tÆÄÀÏ Å©±â: " + new FileInfo(path).Length;
+                   offset + "\të§ˆì§€ë§‰ ìˆ˜ì •: " + dt.ToLongDateString() + " " + dt.ToLongTimeString() + "\r\n" +
+                   offset + "\tíŒŒì¼ í¬ê¸°: " + new FileInfo(path).Length;
         }
 
         /**
-            ´ë»ó ÆÄÀÏÀÇ Á¤º¸¸¦ ÀúÀåÇÕ´Ï´Ù
+            ëŒ€ìƒ íŒŒì¼ì˜ ì •ë³´ë¥¼ ì €ì¥í•©ë‹ˆë‹¤
         */
         public virtual void Save(BinaryWriter writer)
         {
