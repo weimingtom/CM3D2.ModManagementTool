@@ -12,6 +12,9 @@ namespace CM3D2.ModManager.Mod.Problem
         //오류의 설명을 가져옵니다
         public abstract string getDescription();
 
+        //오류의 한줄 요약을 가져옵니다.
+        public abstract string getSummary();
+
         public abstract BaseFile getIssueFile();
     }
 }

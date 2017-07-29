@@ -28,5 +28,10 @@ namespace CM3D2.ModManager.Mod.Problem
         {
             return file;
         }
+
+        public override string getSummary()
+        {
+            return "경로이상: " + invalidPath;
+        }
     }
 }

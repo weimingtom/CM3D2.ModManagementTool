@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CM3D2.ModManager.Utils;
+using System.IO;
 
 namespace CM3D2.ModManager.Mod.Problem
 {
@@ -28,6 +29,11 @@ namespace CM3D2.ModManager.Mod.Problem
         public override BaseFile getIssueFile()
         {
             return file;
+        }
+
+        public override string getSummary()
+        {
+            return "파일누락: " + Path.GetFileName(file.path);
         }
     }
 }
