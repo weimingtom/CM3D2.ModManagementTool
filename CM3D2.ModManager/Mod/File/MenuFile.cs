@@ -20,9 +20,10 @@ namespace CM3D2.ModManager.Utils
         public override void Verify()
         {
             base.Verify();
-
-            if (!isFromCache)
+            
+            if (!verifyChecked)
             {
+                references.Clear();
                 byte[] data = File.ReadAllBytes(this.path);
                 BinaryReader binaryReader = null;
                 try
@@ -78,13 +79,10 @@ namespace CM3D2.ModManager.Utils
                             }
                         }
                     }
+                    verifyChecked = true;
                 }
                 catch (ArgumentException ae)
                 {
-                    var invalids = System.IO.Path.GetInvalidPathChars().Select(x => Convert.ToByte((char) x));
-
-                    var found = System.Text.Encoding.Default.GetBytes(path).Intersect(invalids);
-
                     errorMessages.Add("부적절한 문자 때문에 접근할수 없는 경로: " + path);
                 }
                 catch (Exception e)
@@ -100,6 +98,7 @@ namespace CM3D2.ModManager.Utils
                     }
                     catch { }
                 }
+                
             }
 
             foreach (string path in references)

@@ -21,8 +21,9 @@ namespace CM3D2.ModManager.Utils
         {
             base.Verify();
 
-            if(!isFromCache)
+            if(!verifyChecked)
             {
+                references.Clear();
                 BinaryReader binaryReader = null;
                 try
                 {
@@ -86,6 +87,7 @@ namespace CM3D2.ModManager.Utils
                             }
                         }
                     }
+                    verifyChecked = true;
                 }
                 catch (ArgumentException ae)
                 {
@@ -108,6 +110,7 @@ namespace CM3D2.ModManager.Utils
                     }
                     catch { }
                 }
+                verifyChecked = true;
             }
 
             foreach(string path in references)
