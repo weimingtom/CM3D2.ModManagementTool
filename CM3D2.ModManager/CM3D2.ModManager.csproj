@@ -98,7 +98,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ConfigManager.cs" />
-    <Compile Include="Utils\FileManager.cs" />
+    <Compile Include="Utils\FileHelper.cs" />
     <Compile Include="Utils\Include.cs" />
     <Compile Include="Mod\ModContainer.cs" />
     <EmbeddedResource Include="Frm\Frm_Loader.resx">
