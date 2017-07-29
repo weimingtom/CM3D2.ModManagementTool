@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.ModManager", "CM3D2.ModManager\CM3D2.ModManager.csproj", "{80208AE9-93A6-4D1C-B07C-C526FB031E70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM3D2.DecompileHelper", "CM3D2.DecompileHelper\CM3D2.DecompileHelper.csproj", "{F6111709-BDFF-41FF-96C3-BB0E63A89A17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80208AE9-93A6-4D1C-B07C-C526FB031E70}.Debug|x64.ActiveCfg = Debug|x64
+		{80208AE9-93A6-4D1C-B07C-C526FB031E70}.Debug|x64.Build.0 = Debug|x64
+		{80208AE9-93A6-4D1C-B07C-C526FB031E70}.Release|x64.ActiveCfg = Release|x64
+		{80208AE9-93A6-4D1C-B07C-C526FB031E70}.Release|x64.Build.0 = Release|x64
+		{F6111709-BDFF-41FF-96C3-BB0E63A89A17}.Debug|x64.ActiveCfg = Debug|x64
+		{F6111709-BDFF-41FF-96C3-BB0E63A89A17}.Debug|x64.Build.0 = Debug|x64
+		{F6111709-BDFF-41FF-96C3-BB0E63A89A17}.Release|x64.ActiveCfg = Release|x64
+		{F6111709-BDFF-41FF-96C3-BB0E63A89A17}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
