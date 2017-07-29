@@ -21,5 +21,10 @@ namespace CM3D2.ModManager.Mod.Problem
         {
             return "손상된 파일: " + file.path;
         }
+
+        public override BaseFile getIssueFile()
+        {
+            return file;
+        }
     }
 }

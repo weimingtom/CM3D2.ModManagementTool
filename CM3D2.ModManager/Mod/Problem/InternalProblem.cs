@@ -23,5 +23,10 @@ namespace CM3D2.ModManager.Mod.Problem
         {
             return "내부 오류: " + e.Message;
         }
+
+        public override BaseFile getIssueFile()
+        {
+            return file;
+        }
     }
 }

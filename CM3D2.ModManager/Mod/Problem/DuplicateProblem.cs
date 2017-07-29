@@ -28,5 +28,10 @@ namespace CM3D2.ModManager.Mod.Problem
             }
             return "파일 중복";
         }
+
+        public override BaseFile getIssueFile()
+        {
+            return file;
+        }
     }
 }

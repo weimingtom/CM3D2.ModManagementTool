@@ -23,5 +23,10 @@ namespace CM3D2.ModManager.Mod.Problem
         {
             return "경로에 사용할 수 없는 문자가 포함됨: " + invalidPath;
         }
+
+        public override BaseFile getIssueFile()
+        {
+            return file;
+        }
     }
 }
