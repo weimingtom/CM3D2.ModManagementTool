@@ -115,26 +115,7 @@ namespace CM3D2.ModManager.Mod.File
                 errors.Add(new DuplicateProblem(this));
             }
         }
-
-        /**
-         * 대상 파일의 정보를 덤프합니다.
-         * 
-         * Verify에서 주로 쓰이기 때문에, 중복 체크가 가능한 파일 크기와 마지막 수정일이 포함됩니다.
-        */
-        public string dumpFile(string path, string displayPath, string offset = "")
-        {
-            if(!System.IO.File.Exists(path))
-            {
-                return offset + displayPath + " 파일이 없습니다.";
-            }
-
-            DateTime dt = System.IO.File.GetLastWriteTime(path);
-
-            return offset + displayPath + "\r\n" +
-                   offset + "\t마지막 수정: " + dt.ToLongDateString() + " " + dt.ToLongTimeString() + "\r\n" +
-                   offset + "\t파일 크기: " + new FileInfo(path).Length;
-        }
-
+        
         /**
             대상 파일의 정보를 저장합니다
         */

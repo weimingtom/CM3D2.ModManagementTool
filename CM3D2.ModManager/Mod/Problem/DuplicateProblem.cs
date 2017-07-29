@@ -22,10 +22,10 @@ namespace CM3D2.ModManager.Mod.Problem
         {
             StringBuilder builder = new StringBuilder();
             builder.Append("파일이 두개이상 존재합니다.\r\n");
-            builder.Append(file.dumpFile(file.path, file.relativePath, "\t") + "\r\n");
+            builder.Append(FileHelper.dumpFile(file.path, file.relativePath, "\t") + "\r\n");
             foreach (BaseFile file in file.duplicateFiles)
             {
-                builder.Append(file.dumpFile(file.path, file.relativePath, "\t") + "\r\n");
+                builder.Append(FileHelper.dumpFile(file.path, file.relativePath, "\t") + "\r\n");
             }
             return builder.ToString();
         }
