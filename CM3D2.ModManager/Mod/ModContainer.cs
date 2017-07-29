@@ -48,6 +48,11 @@ namespace CM3D2.ModManager.Utils
             return fileNameDict.query(name);
         }
 
+        public void foreachFiles(ModDictionary.forEachItems each)
+        {
+            fileNameDict.forEach(each);
+        }
+
         private bool analyzed = false;
 
         public readonly string rootDir;
@@ -127,10 +132,12 @@ namespace CM3D2.ModManager.Utils
 
             void insertIfExist(BaseFile file)
             {
+                /*
                 if (!File.Exists(file.path))
                 {
                     return;
                 }
+                */
                 fileNameDict.insert(file.path, file);
             }
 

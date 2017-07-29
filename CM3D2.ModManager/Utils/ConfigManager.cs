@@ -8,8 +8,22 @@ namespace CM3D2.ModManager.Utils
 {
     class ConfigManager
     {
-        private ConfigManager single;
+        private static ConfigManager single;
 
+        public static ConfigManager Single
+        {
+            get {
+                if(single == null)
+                {
+                    single = new ConfigManager();
+                }
+                return single;
+            }
+        }
 
+        public string getRoot()
+        {
+            return @"D:\GameNK\Hs\3D\Custom Maid\MODS_COLLECTION"; //TODO: Replace with user data
+        }
     }
 }

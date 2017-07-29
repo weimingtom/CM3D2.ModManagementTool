@@ -16,7 +16,7 @@ namespace CM3D2.ModManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Frm_Loader());
+            Application.Run(new Frm.Frm_ProblemViewer());
         }
     }
 }

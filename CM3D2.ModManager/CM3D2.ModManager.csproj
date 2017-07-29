@@ -67,6 +67,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Frm\Frm_Loader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\Frm_Loader.Designer.cs">
+      <DependentUpon>Frm_Loader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm\Frm_ProblemViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\Frm_ProblemViewer.Designer.cs">
+      <DependentUpon>Frm_ProblemViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mod\CMExtensions.cs" />
     <Compile Include="Mod\Problem\BaseProblem.cs" />
     <Compile Include="Mod\File\BaseFile.cs" />
@@ -89,6 +101,12 @@
     <Compile Include="Utils\FileManager.cs" />
     <Compile Include="Utils\Include.cs" />
     <Compile Include="Mod\ModContainer.cs" />
+    <EmbeddedResource Include="Frm\Frm_Loader.resx">
+      <DependentUpon>Frm_Loader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm\Frm_ProblemViewer.resx">
+      <DependentUpon>Frm_ProblemViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -113,8 +131,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Frm\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

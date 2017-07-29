@@ -27,7 +27,7 @@ namespace CM3D2.ModManager.Mod.Problem
             {
                 builder.Append(file.dumpFile(file.path, file.relativePath, "\t") + "\r\n");
             }
-            return "파일 중복";
+            return builder.ToString();
         }
 
         public override BaseFile getIssueFile()

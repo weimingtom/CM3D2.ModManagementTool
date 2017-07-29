@@ -101,8 +101,7 @@ namespace CM3D2.ModManager
 
             updateStatus("모드목록을 만드는중...");
             ModContainer.MessageReceiver receiver = new ModContainer.MessageReceiver(MessageReceived);
-            //TODO: User INPUT!!!
-            ModContainer.createModContainer(@"D:\GameNK\Hs\3D\Custom Maid\MODS_COLLECTION", receiver);
+            ModContainer.createModContainer( ConfigManager.Single.getRoot() , receiver);
 
             updateStatus("모드의 문제점을 찾는중...");
             ModContainer.Single.analyzeMods(false);
