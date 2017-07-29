@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using System.IO;
 using System.Security.Cryptography;
+using CM3D2.ModManager.Mod.Problem;
 
 namespace CM3D2.ModManager.Utils
 {
@@ -109,9 +110,9 @@ namespace CM3D2.ModManager.Utils
                 writer.WriteLine(file.relativePath);
                 writer.WriteLine("--------------------");
 
-                foreach (string message in file.errors)
+                foreach (BaseProblem message in file.errors)
                 {
-                    writer.WriteLine(message);
+                    writer.WriteLine(message.getDescription());
                 }
 
                 writer.WriteLine("");

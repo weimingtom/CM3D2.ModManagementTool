@@ -1,3 +1,4 @@
+using CM3D2.ModManager.Mod.Problem;
 using System;
 using System.IO;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace CM3D2.ModManager.Utils
                     string text = binaryReader.ReadString();
                     if (text != "CM3D2_MOD")
                     {
-                        errors.Add("올바르지 않은 모드파일");
+                        errors.Add(new InvalidCMFileProblem(this));
                         return;
                     }
                     binaryReader.ReadInt32();
@@ -48,7 +49,7 @@ namespace CM3D2.ModManager.Utils
                     }
                     catch(Exception e)
                     {
-                        errors.Add("올바르지 않은 모드파일");
+                        errors.Add(new InvalidCMFileProblem(this));
                         return;
                     }
                     string text4 = string.Empty;
@@ -91,15 +92,11 @@ namespace CM3D2.ModManager.Utils
                 }
                 catch (ArgumentException ae)
                 {
-                    var invalidPathChars = path.Where(Path.GetInvalidPathChars().Contains).ToArray();
-
-                    string dat = string.Join(string.Empty, invalidPathChars);
-
-                    errors.Add("부적절한 문자 때문에 접근할수 없는 경로: " + path);
+                    errors.Add(new InvalidPathProblem(this, path));
                 }
                 catch (Exception e)
                 {
-                    errors.Add("내부 에러: " + e.Message);
+                    errors.Add(new InternalProblem(this, e));
                 }
                 finally
                 {
@@ -117,7 +114,7 @@ namespace CM3D2.ModManager.Utils
             {
                 if( !FileHelper.isExist(path) )
                 {
-                    errors.Add("파일 없음: " + path);
+                    errors.Add(new MissingFileProblem(this, path));
                 }
             }
         }

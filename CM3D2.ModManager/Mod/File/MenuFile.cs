@@ -34,7 +34,7 @@ namespace CM3D2.ModManager.Utils
                     string text = binaryReader.ReadString();
                     if (text != "CM3D2_MENU")
                     {
-                        errors.Add("올바르지 않은 메뉴파일");
+                        errors.Add(new InvalidCMFileProblem(this));
                         return;
                     }
                     binaryReader.ReadInt32();
