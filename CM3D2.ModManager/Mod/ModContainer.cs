@@ -43,17 +43,17 @@ namespace CM3D2.ModManager.Mod
 
         private const string CACHE = @"\CM3D2.ModManager.ModListCache";
 
-        private ModDictionary fileNameDict = new ModDictionary(true);
-
+        private readonly ModDictionary fileNameDict = new ModDictionary(true);
         public BaseFile queryFile(string name)
         {
             return fileNameDict.query(name);
         }
-
         public void foreachFiles(ModDictionary.forEachItems each)
         {
             fileNameDict.forEach(each);
         }
+
+        public readonly CacheStore CacheStore = new CacheStore();
 
         private bool analyzed = false;
 
@@ -82,6 +82,18 @@ namespace CM3D2.ModManager.Mod
             else
             {
                 readFolder();
+            }
+            
+            foreach (string relativePath in CacheStore.relativePaths)
+            {
+                messages("로드: " + relativePath);
+
+                BaseFile mod = BaseFile.createFileFromPath(rootDir, relativePath);
+                if(mod == null)
+                {
+                    continue;
+                }
+                fileNameDict.insert( Path.GetFullPath(rootDir + relativePath) , mod);
             }
         }
 
@@ -132,126 +144,29 @@ namespace CM3D2.ModManager.Mod
             messages("캐시 파일 읽는중");
             BinaryReader reader = new BinaryReader( new FileStream(rootDir + CACHE, FileMode.Open) );
 
-            void insertIfExist(BaseFile file)
-            {
-                /*
-                if (!File.Exists(file.path))
-                {
-                    return;
-                }
-                */
-                fileNameDict.insert(file.path, file);
-            }
-
-            int count;
-            count = reader.ReadInt32();
-            for(int i = 0; i < count; i++)
-            {
-                insertIfExist(new ModFile(reader, rootDir));
-            }
-
-            count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-            {
-                insertIfExist(new MenuFile(reader, rootDir));
-            }
-
-            count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-            {
-                insertIfExist(new TexFile(reader, rootDir));
-            }
-
-            count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-            {
-                insertIfExist(new MatFile(reader, rootDir));
-            }
-
-            count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-            {
-                insertIfExist(new ModelFile(reader, rootDir));
-            }
-
-            count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-            {
-                insertIfExist(new PresetFile(reader, rootDir));
-            }
+            CacheStore.Load(reader);
 
             reader.Close();
         }
-
-        public void refreshCache()
-        {
-
-        }
-
+        
         public void writeCache()
         {
             BinaryWriter writer = new BinaryWriter(new FileStream(rootDir + CACHE, FileMode.Create));
 
-            writer.Write(fileNameDict.modFiles.Count);
-            foreach(BaseFile file in fileNameDict.modFiles.Values)
-            {
-                file.Save(writer);
-            }
-
-            writer.Write(fileNameDict.menuFiles.Count);
-            foreach (BaseFile file in fileNameDict.menuFiles.Values)
-            {
-                file.Save(writer);
-            }
-
-            writer.Write(fileNameDict.texFiles.Count);
-            foreach (BaseFile file in fileNameDict.texFiles.Values)
-            {
-                file.Save(writer);
-            }
-
-            writer.Write(fileNameDict.matFiles.Count);
-            foreach (BaseFile file in fileNameDict.matFiles.Values)
-            {
-                file.Save(writer);
-            }
-
-            writer.Write(fileNameDict.modelFiles.Count);
-            foreach (BaseFile file in fileNameDict.modelFiles.Values)
-            {
-                file.Save(writer);
-            }
-
-            writer.Write(fileNameDict.presetFiles.Count);
-            foreach (BaseFile file in fileNameDict.presetFiles.Values)
-            {
-                file.Save(writer);
-            }
+            CacheStore.Save(writer);
 
             writer.Close();
         }
 
         private void readFolder()
         {
-            List<string> paths = new List<string>(); //Better Performance?
+            CacheStore.Clear();
 
             foreach(string path in Directory.EnumerateFiles(rootDir, "*.*", SearchOption.AllDirectories))
             {
-                messages("탐색: " + trimPath(path));
-                paths.Add(path);
-            }
-
-            foreach (string path in paths)
-            {
                 string relativePath = trimPath(path);
-                messages("로드: " + relativePath);
-
-                BaseFile mod = BaseFile.createFileFromPath(rootDir, relativePath);
-                if(mod == null)
-                {
-                    continue;
-                }
-                fileNameDict.insert(path, mod);
+                messages("탐색: " + relativePath);
+                CacheStore.RegisterRelativePath(relativePath);
             }
         }
 

@@ -15,16 +15,11 @@ namespace CM3D2.ModManager.Mod.File
 
         }
 
-        public MenuFile(BinaryReader reader, string root) : base(reader, root)
-        {
-
-        }
-
         public override void Verify()
         {
             base.Verify();
             
-            if (!verifyChecked)
+            if (!referenceLoaded)
             {
                 references.Clear();
                 byte[] data = System.IO.File.ReadAllBytes(this.path);
@@ -82,7 +77,7 @@ namespace CM3D2.ModManager.Mod.File
                             }
                         }
                     }
-                    verifyChecked = true;
+                    OnReferenceLoad();
                 }
                 catch (ArgumentException ae)
                 {

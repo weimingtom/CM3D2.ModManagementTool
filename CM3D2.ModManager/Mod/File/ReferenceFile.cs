@@ -7,34 +7,25 @@ namespace CM3D2.ModManager.Mod.File
     {
         //이 파일이 가지고 있는 외부파일(이 파일이 사용하는 파일의) 레퍼런스, Verify 이후 생성됩니다.
         public List<string> references = new List<string>();
-        protected bool verifyChecked = false;
+        protected bool referenceLoaded = false;
 
-        public ReferenceFile(string path, string trimRoot) : base(path, trimRoot)
+        private CacheStore store;
+
+        public ReferenceFile(string root, string path) : base(root, path)
         {
-
+            this.store = ModContainer.Single.CacheStore;
+            var query = store.QueryReferences(path);
+            if (query != null)
+            {
+                references = query;
+                referenceLoaded = true;
+            }
         }
 
-        public ReferenceFile(BinaryReader reader, string root) : base(reader, root)
+        public void OnReferenceLoad()
         {
-            int count = reader.ReadInt32();
-
-            for (int i = 0; i < count; i++)
-            {
-                references.Add(reader.ReadString());
-            }
-
-            verifyChecked = true;
-        }
-
-        public override void Save(BinaryWriter writer)
-        {
-            base.Save(writer);
-
-            writer.Write(references.Count);
-            foreach (string s in references)
-            {
-                writer.Write(s);
-            }
+            referenceLoaded = true;
+            store.RegisterReference(this);
         }
     }
 }

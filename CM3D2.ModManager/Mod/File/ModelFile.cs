@@ -8,10 +8,5 @@ namespace CM3D2.ModManager.Mod.File
         {
 
         }
-
-        public ModelFile(BinaryReader reader, string root) : base(reader, root)
-        {
-
-        }
     }
 }

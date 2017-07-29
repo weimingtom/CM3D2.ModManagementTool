@@ -14,16 +14,11 @@ namespace CM3D2.ModManager.Mod.File
 
         }
 
-        public ModFile(BinaryReader reader, string root) : base(reader, root)
-        {
-
-        }
-
         public override void Verify()
         {
             base.Verify();
 
-            if(!verifyChecked)
+            if(!referenceLoaded)
             {
                 references.Clear();
                 BinaryReader binaryReader = null;
@@ -89,7 +84,7 @@ namespace CM3D2.ModManager.Mod.File
                             }
                         }
                     }
-                    verifyChecked = true;
+                    OnReferenceLoad();
                 }
                 catch (ArgumentException ae)
                 {
@@ -103,12 +98,10 @@ namespace CM3D2.ModManager.Mod.File
                 {
                     try
                     {
-                        if (binaryReader != null)
-                            binaryReader.Close();
+                        binaryReader?.Close();
                     }
                     catch { }
                 }
-                verifyChecked = true;
             }
 
             foreach(string path in references)

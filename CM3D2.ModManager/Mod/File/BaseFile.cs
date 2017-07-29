@@ -69,6 +69,7 @@ namespace CM3D2.ModManager.Mod.File
         public readonly string path;
 
         public readonly string root;
+        
         /**
          * 모드 폴더를 제외한 경로
         */
@@ -85,24 +86,6 @@ namespace CM3D2.ModManager.Mod.File
             this.root = root;
             this.relativePath = path;
         }
-        
-        /**
-         * 저장된 데이터로 부터 파일정보를 만듭니다
-        */
-        public BaseFile(BinaryReader reader, string root)
-        {
-            this.root = root;
-            this.relativePath = reader.ReadString();
-
-            this.path = Path.GetFullPath(root + relativePath);
-
-            int count = reader.ReadInt32();
-            for(int i = 0; i < count; i++)
-            {
-                BaseFile duplicate = new BaseFile(reader, root);
-                duplicateFiles.Add(duplicate);
-            }
-        }
 
         /**
             대상파일의 문제점을 찾고, 존재하는경우 errorList에 넣습니다.
@@ -114,14 +97,6 @@ namespace CM3D2.ModManager.Mod.File
             if (duplicateFiles.Count != 0) {
                 errors.Add(new DuplicateProblem(this));
             }
-        }
-        
-        /**
-            대상 파일의 정보를 저장합니다
-        */
-        public virtual void Save(BinaryWriter writer)
-        {
-            saveBasicData(this, writer);
         }
 
         public static bool isCM3D2Extension(string exten)

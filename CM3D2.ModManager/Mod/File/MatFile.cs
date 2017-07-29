@@ -8,10 +8,5 @@ namespace CM3D2.ModManager.Mod.File
         {
 
         }
-
-        public MatFile(BinaryReader reader, string root) : base(reader, root)
-        {
-
-        }
     }
 }
