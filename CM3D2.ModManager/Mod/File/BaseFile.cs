@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 
 using CM3D2.ModManager.Mod.Problem;
+using CM3D2.ModManager.Utils;
 
-namespace CM3D2.ModManager.Utils
+namespace CM3D2.ModManager.Mod.File
 {
     /**
      * 파일의 정보를 기록하는데 쓰이는 기초 클래스
@@ -15,7 +16,7 @@ namespace CM3D2.ModManager.Utils
         public static BaseFile createFileFromPath(string rootDir, string relativePath)
         {
             string path = Path.GetFullPath(rootDir + relativePath);
-            if( !File.Exists(path) )
+            if( !System.IO.File.Exists(path) )
             {
                 return null;
             }
@@ -122,12 +123,12 @@ namespace CM3D2.ModManager.Utils
         */
         public string dumpFile(string path, string displayPath, string offset = "")
         {
-            if(!File.Exists(path))
+            if(!System.IO.File.Exists(path))
             {
                 return offset + displayPath + " 파일이 없습니다.";
             }
 
-            DateTime dt = File.GetLastWriteTime(path);
+            DateTime dt = System.IO.File.GetLastWriteTime(path);
 
             return offset + displayPath + "\r\n" +
                    offset + "\t마지막 수정: " + dt.ToLongDateString() + " " + dt.ToLongTimeString() + "\r\n" +

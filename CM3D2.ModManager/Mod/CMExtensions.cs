@@ -1,4 +1,4 @@
-namespace CM3D2.ModManager.Utils
+namespace CM3D2.ModManager.Mod
 {
     class CMExtensions
     {

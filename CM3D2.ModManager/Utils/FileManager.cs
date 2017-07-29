@@ -2,6 +2,8 @@
 
 using Injected;
 using System;
+using CM3D2.ModManager.Mod;
+using CM3D2.ModManager.Mod.File;
 
 namespace CM3D2.ModManager.Utils
 {

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 
 using CM3D2.ModManager.Mod.Problem;
+using CM3D2.ModManager.Utils;
 
-namespace CM3D2.ModManager.Utils
+namespace CM3D2.ModManager.Mod.File
 {
     class MenuFile : ReferenceFile
     {
@@ -26,7 +27,7 @@ namespace CM3D2.ModManager.Utils
             if (!verifyChecked)
             {
                 references.Clear();
-                byte[] data = File.ReadAllBytes(this.path);
+                byte[] data = System.IO.File.ReadAllBytes(this.path);
                 BinaryReader binaryReader = null;
                 try
                 {

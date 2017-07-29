@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 
 using System.IO;
 using System.Security.Cryptography;
+using CM3D2.ModManager.Mod.File;
 using CM3D2.ModManager.Mod.Problem;
+using CM3D2.ModManager.Utils;
 
-namespace CM3D2.ModManager.Utils
+namespace CM3D2.ModManager.Mod
 {
     class ModContainer
     {
@@ -73,7 +75,7 @@ namespace CM3D2.ModManager.Utils
                 throw new Exception("대상 폴더가 존재하지 않습니다.");
             }
 
-            if( File.Exists(rootDir + @"\CM3D2.ModManager.ModListCache") )
+            if( System.IO.File.Exists(rootDir + @"\CM3D2.ModManager.ModListCache") )
             {
                 readCache();
             }
@@ -255,7 +257,7 @@ namespace CM3D2.ModManager.Utils
 
         public void deleteCache()
         {
-            File.Delete(rootDir + CACHE);
+            System.IO.File.Delete(rootDir + CACHE);
         }
     }
 }

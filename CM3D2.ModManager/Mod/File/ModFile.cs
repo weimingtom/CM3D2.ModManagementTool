@@ -3,8 +3,9 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CM3D2.ModManager.Utils;
 
-namespace CM3D2.ModManager.Utils
+namespace CM3D2.ModManager.Mod.File
 {
     class ModFile : ReferenceFile
     {

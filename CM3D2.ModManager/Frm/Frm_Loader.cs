@@ -12,6 +12,7 @@ using System.Threading;
 
 using CM3D2.ModManager.Utils;
 using System.Diagnostics;
+using CM3D2.ModManager.Mod;
 
 namespace CM3D2.ModManager
 {

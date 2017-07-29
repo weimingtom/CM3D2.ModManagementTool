@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace CM3D2.ModManager.Utils
+namespace CM3D2.ModManager.Mod.File
 {
     class PresetFile : BaseFile
     {
