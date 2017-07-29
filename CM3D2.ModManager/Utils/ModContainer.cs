@@ -194,19 +194,11 @@ namespace CM3D2.ModManager.Utils
 
         private const string CACHE = @"\CM3D2.ModManager.ModListCache";
 
-        private ModDictionary fileNameDict = new ModDictionary(false);
-        private ModDictionary internalNameDict = new ModDictionary(true);
+        private ModDictionary fileNameDict = new ModDictionary(true);
 
         public BaseFile queryFile(string name)
         {
-            BaseFile result;
-            result = fileNameDict.query(name);
-            if(result == null)
-            {
-                result = internalNameDict.query(name);
-            }
-
-            return result;
+            return fileNameDict.query(name);
         }
 
         private bool analyzed = false;
@@ -293,7 +285,6 @@ namespace CM3D2.ModManager.Utils
                     return;
                 }
                 fileNameDict.insert(file.path, file);
-                internalNameDict.insert(file.internalPath, file);
             }
 
             int count;
@@ -405,7 +396,6 @@ namespace CM3D2.ModManager.Utils
                     continue;
                 }
                 fileNameDict.insert(path, mod);
-                internalNameDict.insert(mod.internalPath, mod);
             }
         }
 
@@ -460,7 +450,6 @@ namespace CM3D2.ModManager.Utils
         public static void saveBasicData(BaseFile file, BinaryWriter writer)
         {
             writer.Write(file.relativePath);
-            writer.Write(file.internalPath != null ? file.internalPath : "null");
 
             writer.Write(file.duplicateFiles.Count);
             foreach (BaseFile dup in file.duplicateFiles)
@@ -482,13 +471,6 @@ namespace CM3D2.ModManager.Utils
         */
         public readonly string relativePath;
 
-        /**
-         * 파일에 정의되어 있는 내부 경로입니다, 존재하지 않을 수 있습니다.
-         * 
-         * 내부 파일명이 다르지만 실제 파일명이 같은 경우를 구분하기 위해 사용합니다!
-        */
-        public readonly string internalPath;
-
         public readonly List<BaseFile> duplicateFiles = new List<BaseFile>();
 
         public readonly List<string> errorMessages = new List<string>();
@@ -499,49 +481,6 @@ namespace CM3D2.ModManager.Utils
 
             this.root = root;
             this.relativePath = path;
-
-            if( !hasInternalPath() )
-            {
-                internalPath = null;
-                return;
-            }
-
-            BinaryReader reader = null;
-            try
-            {
-                reader = new BinaryReader(new FileStream(this.path, FileMode.Open));
-                reader.ReadString(); //TYPE HEADER
-                reader.ReadInt32(); //UNKNOWN?
-
-                internalPath = reader.ReadString(); //INTERNAL PATH
-                Path.GetFileName(internalPath); //Check Path is Valid
-            }
-            catch(ArgumentException ae)
-            {
-                internalPath = null;
-            }
-            catch(Exception e)
-            {
-                internalPath = null;
-            }
-            finally
-            {
-                try
-                {
-                    reader.Close();
-                }
-                catch { }
-            }
-        }
-
-        /**
-            이 파일이 내부경로를 가질 수 있는지의 여부를 반환합니다.
-            이 함수가 true를 반환해도, 파일이 깨져있다면 internalPath가 null이 될 수 있습니다!
-            아 Kotlin 쓰고싶다
-        */
-        public virtual bool hasInternalPath()
-        {
-            return true;
         }
         
         /**
@@ -553,13 +492,6 @@ namespace CM3D2.ModManager.Utils
             this.relativePath = reader.ReadString();
 
             this.path = Path.GetFullPath(root + relativePath);
-
-            this.internalPath = reader.ReadString();
-
-            if(internalPath == "null" || !hasInternalPath())
-            {
-                internalPath = null;
-            }
 
             int count = reader.ReadInt32();
             for(int i = 0; i < count; i++)
@@ -575,21 +507,13 @@ namespace CM3D2.ModManager.Utils
         public virtual void Verify()
         {
             errorMessages.Clear();
-            if(internalPath == null)
-            {
-                if (hasInternalPath())
-                {
-                    errorMessages.Add("해당 파일에서 내부 경로 정보를 가져오는데 실패했습니다");
-                }
-                return;
-            }
 
             if (duplicateFiles.Count != 0) {
-                errorMessages.Add("이 파일명을 가진 두 개 이상의 파일이 충돌합니다.");
-                errorMessages.Add("\t" + relativePath + "(" + internalPath + ")");
+                errorMessages.Add("파일이 두개이상 존재합니다.");
+                errorMessages.Add("\t" + relativePath + "(마지막 수정일: " + File.GetLastWriteTime(path).ToLongDateString() + ")");
                 foreach (BaseFile file in duplicateFiles)
                 {
-                    errorMessages.Add("\t" + file.relativePath + "(" + file.internalPath + ")");
+                    errorMessages.Add("\t" + file.relativePath + "(마지막 수정일: " + File.GetLastWriteTime(file.path).ToLongDateString() + ")");
                 }
             }
         }
@@ -654,11 +578,6 @@ namespace CM3D2.ModManager.Utils
         public ModFile(BinaryReader reader, string root) : base(reader, root)
         {
 
-        }
-
-        public override bool hasInternalPath()
-        {
-            return false;
         }
 
         public override void Verify()
@@ -918,11 +837,6 @@ namespace CM3D2.ModManager.Utils
         public PresetFile(BinaryReader reader, string root) : base(reader, root)
         {
 
-        }
-
-        public override bool hasInternalPath()
-        {
-            return false;
         }
     }
 }
