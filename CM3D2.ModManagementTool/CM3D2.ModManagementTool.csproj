@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{80208AE9-93A6-4D1C-B07C-C526FB031E70}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CM3D2.ModManager</RootNamespace>
-    <AssemblyName>CM3D2.ModManager</AssemblyName>
+    <RootNamespace>CM3D2.ModManagementTool</RootNamespace>
+    <AssemblyName>CM3D2.ModManagementTool</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
