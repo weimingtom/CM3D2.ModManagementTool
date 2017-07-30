@@ -1,4 +1,6 @@
-﻿namespace CM3D2.ModManager
+﻿using System.Windows.Forms;
+
+namespace CM3D2.ModManager
 {
     partial class Frm_Loader
     {
@@ -31,20 +33,23 @@
             this.lb_Logs = new System.Windows.Forms.ListBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.lbl_ProgressDetail = new System.Windows.Forms.Label();
+            this.cb_cacheType = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btn_StartProcess = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lb_Logs
             // 
             this.lb_Logs.FormattingEnabled = true;
             this.lb_Logs.ItemHeight = 12;
-            this.lb_Logs.Location = new System.Drawing.Point(12, 12);
+            this.lb_Logs.Location = new System.Drawing.Point(12, 50);
             this.lb_Logs.Name = "lb_Logs";
             this.lb_Logs.Size = new System.Drawing.Size(618, 280);
             this.lb_Logs.TabIndex = 0;
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 298);
+            this.progressBar1.Location = new System.Drawing.Point(12, 336);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(618, 23);
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
@@ -53,25 +58,61 @@
             // lbl_ProgressDetail
             // 
             this.lbl_ProgressDetail.AutoSize = true;
-            this.lbl_ProgressDetail.Location = new System.Drawing.Point(12, 324);
+            this.lbl_ProgressDetail.Location = new System.Drawing.Point(10, 362);
             this.lbl_ProgressDetail.Name = "lbl_ProgressDetail";
             this.lbl_ProgressDetail.Size = new System.Drawing.Size(29, 12);
             this.lbl_ProgressDetail.TabIndex = 2;
             this.lbl_ProgressDetail.Text = "대기";
+            // 
+            // cb_cacheType
+            // 
+            this.cb_cacheType.FormattingEnabled = true;
+            this.cb_cacheType.Items.AddRange(new object[] {
+            "모든 캐시를 사용합니다 (파일 유효성 미검사)",
+            "모든 캐시를 사용합니다 (파일 유효성 검사)",
+            "파일 내부정보 캐시만 사용합니다 (파일목록 재생성)",
+            "캐시를 사용하지 않습니다."});
+            this.cb_cacheType.Location = new System.Drawing.Point(12, 24);
+            this.cb_cacheType.Name = "cb_cacheType";
+            this.cb_cacheType.Size = new System.Drawing.Size(618, 20);
+            this.cb_cacheType.DropDownStyle = ComboBoxStyle.DropDownList;
+            this.cb_cacheType.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(93, 12);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "캐시의 처리방식";
+            // 
+            // btn_StartProcess
+            // 
+            this.btn_StartProcess.Location = new System.Drawing.Point(12, 377);
+            this.btn_StartProcess.Name = "btn_StartProcess";
+            this.btn_StartProcess.Size = new System.Drawing.Size(615, 23);
+            this.btn_StartProcess.TabIndex = 5;
+            this.btn_StartProcess.Text = "모드 리스트 불러오기";
+            this.btn_StartProcess.UseVisualStyleBackColor = true;
+            this.btn_StartProcess.Click += new System.EventHandler(this.btn_StartProcess_Click);
             // 
             // Frm_Loader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(644, 344);
+            this.ClientSize = new System.Drawing.Size(639, 411);
+            this.Controls.Add(this.btn_StartProcess);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cb_cacheType);
             this.Controls.Add(this.lbl_ProgressDetail);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.lb_Logs);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Frm_Loader";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "모드리스트를 만드는중...";
+            this.Text = "모드리스트 로더";
             this.Load += new System.EventHandler(this.Frm_Init_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -83,6 +124,9 @@
         private System.Windows.Forms.ListBox lb_Logs;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label lbl_ProgressDetail;
+        private System.Windows.Forms.ComboBox cb_cacheType;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btn_StartProcess;
     }
 }
 

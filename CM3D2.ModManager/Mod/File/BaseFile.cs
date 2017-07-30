@@ -15,11 +15,14 @@ namespace CM3D2.ModManager.Mod.File
     {
         public static BaseFile createFileFromPath(string rootDir, string relativePath)
         {
-            string path = Path.GetFullPath(rootDir + relativePath);
+            string path = FileHelper.relativePathToAbsoultePath(rootDir, relativePath);
+            
+            /*
             if( !System.IO.File.Exists(path) )
             {
                 throw new FileNotFoundException();
             }
+            */
 
             string exten = Path.GetExtension(path).ToLower();
             if (exten == CMExtensions.EXTENSION_MOD)
@@ -81,7 +84,7 @@ namespace CM3D2.ModManager.Mod.File
 
         public BaseFile(string root, string path)
         {
-            this.path = Path.GetFullPath(root + path);
+            this.path = FileHelper.relativePathToAbsoultePath(root, path);
 
             this.root = root;
             this.relativePath = path;

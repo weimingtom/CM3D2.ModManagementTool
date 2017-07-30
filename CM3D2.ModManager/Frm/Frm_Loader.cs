@@ -27,17 +27,11 @@ namespace CM3D2.ModManager
 
         private bool isSybaris = Directory.Exists("Sybaris");
 
+        private CacheLoadOption _cacheLoadOption;
+
         private void Frm_Init_Load(object sender, EventArgs e)
         {
-            if (!File.Exists("CM3D2.exe"))
-            {
-                MessageBox.Show("CM3D2.exe 를 발견하지 못했습니다. 이 프로그램을 커메 2가 있는 위치에서 실행하세요!", "에러!");
-                Application.Exit();
-                return;
-            }
-
-            processingThread = new Thread(new ThreadStart(Processing));
-            processingThread.Start();
+            
         }
 
         public void SafeClose()
@@ -124,9 +118,23 @@ namespace CM3D2.ModManager
                 Injected.GameUty.Init();
             }
 
+            ModContainer container;
             if (ModContainer.Single != null)
             {
                 updateStatus("모드목록을 재확인 하는중...");
+                switch (_cacheLoadOption)
+                {
+                    case CacheLoadOption.NO_CACHE:
+                        ModContainer.Single.LoadFileList(_cacheLoadOption);
+                        break;
+                    case CacheLoadOption.READ_ALL_CHECK_EXIST:
+                        ModContainer.Single.CacheStore.VerifyRelativePaths();
+                        break;
+                    case CacheLoadOption.READ_ONLY_REFERENCE:
+                        ModContainer.Single.RebuildPaths();
+                        break;
+                }
+                
                 ModContainer.Single.Reload();
             }
             else
@@ -134,6 +142,7 @@ namespace CM3D2.ModManager
                 updateStatus("모드목록을 만드는중...");
                 ModContainer.MessageReceiver receiver = new ModContainer.MessageReceiver(MessageReceived);
                 ModContainer.createModContainer(ConfigManager.Single.getRoot(), receiver);
+                ModContainer.Single.LoadFileList(_cacheLoadOption);
             }
             updateStatus("모드의 문제점을 찾는중...");
             ModContainer.Single.analyzeMods(true);
@@ -147,6 +156,34 @@ namespace CM3D2.ModManager
             updateStatus("초기화 완료");
             
             SafeClose();
+        }
+
+        private void btn_StartProcess_Click(object sender, EventArgs e)
+        {
+            if (cb_cacheType.SelectedIndex == -1)
+            {
+                MessageBox.Show("캐시의 처리방식을 선택하세요.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            switch ( cb_cacheType.SelectedIndex )
+            {
+                    case 0:
+                        _cacheLoadOption = CacheLoadOption.READ_ALL;
+                        break;
+                    case 1:
+                        _cacheLoadOption = CacheLoadOption.READ_ALL_CHECK_EXIST;
+                        break;
+                    case 2:
+                        _cacheLoadOption = CacheLoadOption.READ_ONLY_REFERENCE;
+                        break;
+                    case 3:
+                        _cacheLoadOption = CacheLoadOption.NO_CACHE;
+                        break;
+            }
+            
+            processingThread = new Thread(new ThreadStart(Processing));
+            processingThread.Start();
         }
     }
 }

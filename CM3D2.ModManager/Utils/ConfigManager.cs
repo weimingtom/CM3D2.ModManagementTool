@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,11 @@ namespace CM3D2.ModManager.Utils
         public string getRoot()
         {
             return @"D:\GameNK\Hs\3D\Custom Maid\MODS_COLLECTION"; //TODO: Replace with user data
+        }
+
+        public string relativePathToAbsolutePath(string relativePath)
+        {
+            return FileHelper.relativePathToAbsoultePath(getRoot(), relativePath);
         }
     }
 }

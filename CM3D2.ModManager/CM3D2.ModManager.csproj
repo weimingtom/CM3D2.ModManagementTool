@@ -79,6 +79,7 @@
     <Compile Include="Frm\Frm_ProblemViewer.Designer.cs">
       <DependentUpon>Frm_ProblemViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mod\CacheLoadOption.cs" />
     <Compile Include="Mod\CMExtensions.cs" />
     <Compile Include="Mod\Problem\BaseProblem.cs" />
     <Compile Include="Mod\File\BaseFile.cs" />

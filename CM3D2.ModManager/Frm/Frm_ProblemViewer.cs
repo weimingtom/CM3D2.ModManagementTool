@@ -218,8 +218,7 @@ namespace CM3D2.ModManager.Frm
             }
 
             string parent = Path.GetDirectoryName(first_file.path) + @"\";
-
-            File.Move(Path.GetFullPath(parent + orig), Path.GetFullPath(parent + rename));
+            ModContainer.Single.MoveFile(first_file, Path.GetFullPath(parent + rename));
 
             selected.getIssueFile().duplicateFiles[first_inx] = new BaseFile(ConfigManager.Single.getRoot(), first_file.relativePath.Replace(orig, rename));
             first_file = selected.getIssueFile().duplicateFiles[first_inx];
@@ -241,15 +240,17 @@ namespace CM3D2.ModManager.Frm
             }
 
             List<BaseFile> duplicate = selected.getIssueFile().duplicateFiles;
+            List<BaseFile> deletes = new List<BaseFile>();
             duplicate.RemoveAll(item =>
             {
                 if(item != first_file)
                 {
-                    File.Delete(item.path);
+                    deletes.Add(item);
                     return true;
                 }
                 return false;
             });
+            ModContainer.Single.DeleteFile( deletes.ToArray() );
 
             second_file = null; //first_file 이외에 다른 파일이 삭제되었기 때문에, 이 변수는 더이상 유효하지 않음
             refreshSelected();
@@ -270,9 +271,7 @@ namespace CM3D2.ModManager.Frm
                 return;
             }
 
-            File.Delete(first_file.path);
-            File.Move(second_file.path, first_file.path);
-
+            ModContainer.Single.OverMoveFile(second_file, first_file);
             selected.getIssueFile().duplicateFiles[first_inx] = new BaseFile(ConfigManager.Single.getRoot(), first_file.relativePath);
 
             first_file = selected.getIssueFile().duplicateFiles[first_inx];

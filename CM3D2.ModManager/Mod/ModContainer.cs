@@ -12,7 +12,8 @@ namespace CM3D2.ModManager.Mod
 {
     class ModContainer
     {
-        public event MessageReceiver messages;
+        
+        private event MessageReceiver messages;
         public delegate void MessageReceiver(string message);
 
         private static ModContainer single;
@@ -37,8 +38,6 @@ namespace CM3D2.ModManager.Mod
             {
                 single.messages += receiver;
             }
-
-            single.Init();
         }
 
         private const string CACHE = @"\CM3D2.ModManager.ModListCache";
@@ -68,16 +67,18 @@ namespace CM3D2.ModManager.Mod
             return path.Replace(this.rootDir, "");
         }
 
-        protected void Init()
+        public void LoadFileList(CacheLoadOption option)
         {
+            CacheStore.Clear();
+            
             if(!Directory.Exists(rootDir))
             {
                 throw new Exception("대상 폴더가 존재하지 않습니다.");
             }
 
-            if( System.IO.File.Exists(rootDir + @"\CM3D2.ModManager.ModListCache") )
+            if( System.IO.File.Exists(rootDir + @"\CM3D2.ModManager.ModListCache") && option != CacheLoadOption.NO_CACHE )
             {
-                readCache();
+                readCache(option);
             }
             else
             {
@@ -85,6 +86,12 @@ namespace CM3D2.ModManager.Mod
             }
             
             Reload();
+        }
+
+        public void RebuildPaths()
+        {
+            CacheStore.relativePaths.Clear();
+            readFolder();
         }
 
         public void Reload()
@@ -108,7 +115,7 @@ namespace CM3D2.ModManager.Mod
                 {
                     continue;
                 }
-                fileNameDict.insert( Path.GetFullPath(rootDir + relativePath) , mod);
+                fileNameDict.insert( FileHelper.relativePathToAbsoultePath(rootDir, relativePath) , mod);
             }
             
             CacheStore.UnregisterRelativePaths(invalids);
@@ -156,12 +163,12 @@ namespace CM3D2.ModManager.Mod
             }
         }
 
-        private void readCache()
+        private void readCache(CacheLoadOption option)
         {
             messages("캐시 파일 읽는중");
             BinaryReader reader = new BinaryReader( new FileStream(rootDir + CACHE, FileMode.Open) );
 
-            CacheStore.Load(reader);
+            CacheStore.Load(reader, option);
 
             reader.Close();
         }
@@ -177,14 +184,51 @@ namespace CM3D2.ModManager.Mod
 
         private void readFolder()
         {
-            CacheStore.Clear();
-
             foreach(string path in Directory.EnumerateFiles(rootDir, "*.*", SearchOption.AllDirectories))
             {
                 string relativePath = trimPath(path);
                 messages("탐색: " + relativePath);
                 CacheStore.RegisterRelativePath(relativePath);
             }
+        }
+
+        
+        //주어진 파일들을 삭제합니다.
+        public void DeleteFile(params BaseFile[] files)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            foreach (var file in files)
+            {
+                System.IO.File.Delete(file.path);
+                dict.Add(file.relativePath, null);
+                CacheStore.UnregisterReference(file.relativePath);
+            }
+
+            CacheStore.relativePaths.RemoveAll(item => dict.ContainsKey(item));
+            
+        }
+
+        //dest를 삭제하고 dest의 경로로 src 파일을 옮깁니다.
+        public void OverMoveFile(BaseFile src, BaseFile dest)
+        {
+            System.IO.File.Delete(dest.path);
+            System.IO.File.Move(src.path, dest.path);
+
+            CacheStore.UnregisterReference(src.relativePath);
+            CacheStore.UnregisterReference(dest.relativePath);
+            
+            CacheStore.relativePaths.RemoveAll(item => item == src.relativePath);
+        }
+
+        //파일을 이동합니다
+        public void MoveFile(BaseFile file, string destPath)
+        {
+            System.IO.File.Move(file.path, destPath);
+            
+            CacheStore.UnregisterReference(file.relativePath); //MoveFile Can renameing file :p
+            
+            CacheStore.relativePaths.RemoveAll(item => item == file.relativePath);
+            CacheStore.RegisterRelativePath( trimPath(destPath) );
         }
 
         public void deleteCache()
