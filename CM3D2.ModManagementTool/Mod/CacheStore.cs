@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CM3D2.ModManagementTool.Mod.File;
@@ -28,18 +29,25 @@ namespace CM3D2.ModManagementTool.Mod
             }
 
             int bytesLen = reader.ReadInt32();
-            if (option == CacheLoadOption.READ_ONLY_REFERENCE)
+            if (option != CacheLoadOption.READ_ONLY_REFERENCE)
             {
                 int relativeCount = reader.ReadInt32();
+                
                 for (int i = 0; i < relativeCount; i++)
                 {
                     string relative = reader.ReadString();
-                    if (option == CacheLoadOption.READ_ALL_CHECK_EXIST &&
-                        !System.IO.File.Exists(ConfigManager.Single.relativePathToAbsolutePath(relative)))
+                    try //잘못된 경로를 일단 넘어감
                     {
-                        continue;
+                        if (option == CacheLoadOption.READ_ALL_CHECK_EXIST &&
+                            !System.IO.File.Exists(ConfigManager.Single.relativePathToAbsolutePath(relative)))
+                        {
+                            continue;
+                        }
                     }
-                    relativePaths.Add(reader.ReadString());
+                    catch(ArgumentException ae)
+                    {
+                    }
+                    relativePaths.Add(relative);
                 }
             }
             else
