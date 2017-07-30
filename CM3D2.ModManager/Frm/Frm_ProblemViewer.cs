@@ -217,7 +217,7 @@ namespace CM3D2.ModManager.Frm
                 return;
             }
 
-            string parent = Path.GetDirectoryName(first_file.path);
+            string parent = Path.GetDirectoryName(first_file.path) + @"\";
 
             File.Move(Path.GetFullPath(parent + orig), Path.GetFullPath(parent + rename));
 
