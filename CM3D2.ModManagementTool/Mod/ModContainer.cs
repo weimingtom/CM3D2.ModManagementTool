@@ -79,6 +79,11 @@ namespace CM3D2.ModManagementTool.Mod
             if( System.IO.File.Exists(rootDir + @"\CM3D2.ModManager.ModListCache") && option != CacheLoadOption.NO_CACHE )
             {
                 readCache(option);
+
+                if (option == CacheLoadOption.READ_ONLY_REFERENCE)
+                {
+                    readFolder();
+                }
             }
             else
             {
