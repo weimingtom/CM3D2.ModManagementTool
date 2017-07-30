@@ -65,20 +65,22 @@ namespace CM3D2.ModManagementTool.Utils
     {
         public static bool isExist(string name)
         {
-            AFileBase _fileBase = GameUty.FileOpen(name);
-
-            if( _fileBase.IsValid() )
-            {
-                return true;
-            }
-
             BaseFile file = ModContainer.Single.queryFile(name);
 
             if(file != null)
             {
                 return true;
             }
+            
+            AFileBase _fileBase = GameUty.FileOpen(name);
 
+            if( _fileBase.IsValid() )
+            {
+                _fileBase.Dispose();
+                return true;
+            }
+
+            _fileBase.Dispose();
             return false;
         }
 
