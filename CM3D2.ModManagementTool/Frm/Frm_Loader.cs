@@ -129,13 +129,13 @@ namespace CM3D2.ModManagementTool
                         break;
                     case CacheLoadOption.READ_ALL_CHECK_EXIST:
                         ModContainer.Single.CacheStore.VerifyRelativePaths();
+                        ModContainer.Single.Reload();
                         break;
                     case CacheLoadOption.READ_ONLY_REFERENCE:
                         ModContainer.Single.RebuildPaths();
+                        ModContainer.Single.Reload();
                         break;
                 }
-                
-                ModContainer.Single.Reload();
             }
             else
             {
