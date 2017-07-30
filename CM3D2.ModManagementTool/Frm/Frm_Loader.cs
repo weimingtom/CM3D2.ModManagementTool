@@ -118,9 +118,11 @@ namespace CM3D2.ModManagementTool
                 Injected.GameUty.Init();
             }
 
+            ModContainer.MessageReceiver receiver = new ModContainer.MessageReceiver(MessageReceived);
             ModContainer container;
             if (ModContainer.Single != null)
             {
+                ModContainer.Single.messages += receiver;
                 updateStatus("모드목록을 재확인 하는중...");
                 switch (_cacheLoadOption)
                 {
@@ -140,7 +142,6 @@ namespace CM3D2.ModManagementTool
             else
             {
                 updateStatus("모드목록을 만드는중...");
-                ModContainer.MessageReceiver receiver = new ModContainer.MessageReceiver(MessageReceived);
                 ModContainer.createModContainer(ConfigManager.Single.getRoot(), receiver);
                 ModContainer.Single.LoadFileList(_cacheLoadOption);
             }
@@ -154,7 +155,8 @@ namespace CM3D2.ModManagementTool
             ModContainer.Single.writeCache();
 
             updateStatus("초기화 완료");
-            
+
+            ModContainer.Single.messages -= receiver;
             SafeClose();
         }
 

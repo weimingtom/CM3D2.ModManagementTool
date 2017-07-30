@@ -13,7 +13,7 @@ namespace CM3D2.ModManagementTool.Mod
     class ModContainer
     {
         
-        private event MessageReceiver messages;
+        public event MessageReceiver messages;
         public delegate void MessageReceiver(string message);
 
         private static ModContainer single;
