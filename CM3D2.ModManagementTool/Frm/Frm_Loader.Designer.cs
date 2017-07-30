@@ -69,11 +69,11 @@ namespace CM3D2.ModManagementTool
             this.cb_cacheType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_cacheType.FormattingEnabled = true;
             this.cb_cacheType.Items.AddRange(new object[] {
-            "모든 캐시를 사용합니다 (파일 유효성 미검사)",
-            "모든 캐시를 사용합니다 (파일 유효성 검사)",
-            "파일 내부정보 캐시만 사용합니다 (파일목록 재생성)",
-            "파일 목록 캐시만 사용합니다 (내부정보 재생성)",
-            "캐시를 사용하지 않습니다."});
+            "모든 캐시를 사용합니다 (파일 유효성 미검사) - 유의미한 변화가 없을때",
+            "모든 캐시를 사용합니다 (파일 유효성 검사) - 삭제된 모드가 있을때",
+            "파일 내부정보 캐시만 사용합니다 (파일목록 재생성) - 이동/변경된 모드가 있을때",
+            "파일 목록 캐시만 사용합니다 (내부정보 재생성) - 업데이트된 모드가 있을때",
+            "캐시를 사용하지 않습니다. - 캐시 초기화를 할때, 이동후 업데이트된 모드가 있을때"});
             this.cb_cacheType.Location = new System.Drawing.Point(12, 24);
             this.cb_cacheType.Name = "cb_cacheType";
             this.cb_cacheType.Size = new System.Drawing.Size(618, 20);
