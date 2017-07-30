@@ -90,7 +90,7 @@ namespace CM3D2.ModManagementTool.Mod
 
         public void RebuildPaths()
         {
-            CacheStore.relativePaths.Clear();
+            CacheStore.ClearPaths();
             readFolder();
         }
 
@@ -196,16 +196,11 @@ namespace CM3D2.ModManagementTool.Mod
         //주어진 파일들을 삭제합니다.
         public void DeleteFile(params BaseFile[] files)
         {
-            Dictionary<string, object> dict = new Dictionary<string, object>();
             foreach (var file in files)
             {
                 System.IO.File.Delete(file.path);
-                dict.Add(file.relativePath, null);
-                CacheStore.UnregisterReference(file.relativePath);
             }
-
-            CacheStore.relativePaths.RemoveAll(item => dict.ContainsKey(item));
-            
+            CacheStore.Invalid(true, files);
         }
 
         //dest를 삭제하고 dest의 경로로 src 파일을 옮깁니다.
@@ -214,10 +209,8 @@ namespace CM3D2.ModManagementTool.Mod
             System.IO.File.Delete(dest.path);
             System.IO.File.Move(src.path, dest.path);
 
-            CacheStore.UnregisterReference(src.relativePath);
-            CacheStore.UnregisterReference(dest.relativePath);
-            
-            CacheStore.relativePaths.RemoveAll(item => item == src.relativePath);
+            CacheStore.Invalid(src.relativePath, true);
+            CacheStore.Invalid(dest.relativePath, false);
         }
 
         //파일을 이동합니다
@@ -225,9 +218,7 @@ namespace CM3D2.ModManagementTool.Mod
         {
             System.IO.File.Move(file.path, destPath);
             
-            CacheStore.UnregisterReference(file.relativePath); //MoveFile Can renameing file :p
-            
-            CacheStore.relativePaths.RemoveAll(item => item == file.relativePath);
+            CacheStore.Invalid(file.relativePath, true);
             CacheStore.RegisterRelativePath( trimPath(destPath) );
         }
 

@@ -1,5 +1,6 @@
 using CM3D2.ModManagementTool.Mod.Problem;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,9 @@ namespace CM3D2.ModManagementTool.Mod.File
 {
     class ModFile : ReferenceFile
     {
+        //이 모드파일이 내장하고 있는 파일
+        private List<string> includeFiles;
+        
         public ModFile(string path, string trimRoot) : base(path, trimRoot)
         {
 
@@ -18,8 +22,11 @@ namespace CM3D2.ModManagementTool.Mod.File
         {
             base.Verify();
 
-            if(!referenceLoaded)
+            includeFiles = ModContainer.Single.CacheStore.QueryIncludeFiles(relativePath);
+            
+            if(!referenceLoaded || includeFiles == null)
             {
+                includeFiles = new List<string>();
                 references.Clear();
                 BinaryReader binaryReader = null;
                 try
@@ -54,10 +61,17 @@ namespace CM3D2.ModManagementTool.Mod.File
                         text4 = binaryReader.ReadString();
                     }
                     string s = binaryReader.ReadString();
-                    binaryReader.ReadInt32();
-                    int size = (int)binaryReader.BaseStream.Position;
+                    int includeLength = binaryReader.ReadInt32();
+                    for (int i = 0; i < includeLength; i++)
+                    {
+                        includeFiles.Add( binaryReader.ReadString().ToLower() );
+                        binaryReader.BaseStream.Seek(binaryReader.ReadInt32(), SeekOrigin.Current);
+                    }
                     binaryReader.Close();
                     binaryReader = null;
+
+                    ModContainer.Single.CacheStore.RegisterIncludeFiles(relativePath, includeFiles);
+                    
                     using (StringReader stringReader = new StringReader(s))
                     {
                         string empty = string.Empty;
@@ -112,11 +126,11 @@ namespace CM3D2.ModManagementTool.Mod.File
                 }
             }
 
-            foreach(string path in references)
+            foreach(string fileName in references)
             {
-                if( !FileHelper.isExist(path) )
+                if( !FileHelper.isExist(fileName) && (includeFiles != null && !includeFiles.Contains(fileName.ToLower())) )
                 {
-                    errors.Add(new MissingFileProblem(this, path));
+                    errors.Add(new MissingFileProblem(this, fileName));
                 }
             }
         }

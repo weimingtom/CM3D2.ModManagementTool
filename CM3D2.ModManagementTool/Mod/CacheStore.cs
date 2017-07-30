@@ -9,13 +9,19 @@ namespace CM3D2.ModManagementTool.Mod
 {
     public class CacheStore
     {
-        public readonly List<string> relativePaths = new List<string>();
-        private Dictionary<string, List<string>> references = new Dictionary<string, List<string>>();
+        internal readonly List<string> relativePaths = new List<string>();
+        private Dictionary<string, List<string>> references = new Dictionary<string, List<string>>(); //Reference 파일이 가지고 있는 Reference 정보입니다
+        private Dictionary<string, List<string>> includeFiles = new Dictionary<string, List<string>>(); //.mod 파일이 포함하고 있는 추가파일의 목록입니다
 
         public void Clear()
         {
             relativePaths.Clear();
             references.Clear();
+        }
+
+        public void ClearPaths()
+        {
+            relativePaths.Clear();
         }
         
         public void Load(BinaryReader reader, CacheLoadOption option)
@@ -55,18 +61,48 @@ namespace CM3D2.ModManagementTool.Mod
                 reader.BaseStream.Seek(bytesLen, SeekOrigin.Current);
             }
 
-            int count = reader.ReadInt32();
-            for (int i = 0; i < count; i++)
-            {
-                string relativePath = reader.ReadString();
-                int referCount = reader.ReadInt32();
+            ReadStringArrayDict(reader, references);
+            ReadStringArrayDict(reader, includeFiles);
+        }
 
-                List<string> refers = new List<string>(referCount);
-                for (int read = 0; read < referCount; read++)
+        //대상파일을 캐시에서 제외시킵니다
+        public void Invalid(string relativePath, bool includeFile)
+        {
+            if (includeFile)
+            {
+                this.relativePaths.RemoveAll(item => item == relativePath);
+            }
+
+            if(references.ContainsKey(relativePath))
+                references.Remove(relativePath);
+
+            if (includeFiles.ContainsKey(relativePath))
+                includeFiles.Remove(relativePath);
+        }
+
+        public void Invalid(bool includeFile, params BaseFile[] relativePaths)
+        {
+            Dictionary<string, object> dict = null;
+            if (includeFile)
+            {
+                dict = new Dictionary<string, object>();
+            }
+            foreach (var relative in relativePaths)
+            {
+                if (includeFile)
                 {
-                    refers.Add( reader.ReadString() );
+                    dict.Add(relative.relativePath, null);
                 }
-                references[relativePath] = refers;
+                if(references.ContainsKey(relative.relativePath))
+                    references.Remove(relative.relativePath);
+
+                if (includeFiles.ContainsKey(relative.relativePath))
+                    includeFiles.Remove(relative.relativePath);
+            }
+            
+            if (includeFile)
+            {
+                this.relativePaths.RemoveAll(item => dict.ContainsKey(item));
             }
         }
 
@@ -101,11 +137,17 @@ namespace CM3D2.ModManagementTool.Mod
             {
                 cache[str] = null;
             }
-
+            
             var remove = references.Where(item => !cache.ContainsKey(item.Key));
             foreach (var setPair in remove)
             {
                 references.Remove(setPair.Key);
+            }
+
+            remove = includeFiles.Where(item => !cache.ContainsKey(item.Key));
+            foreach (var setPair in remove)
+            {
+                includeFiles.Remove(setPair.Key);
             }
         }
 
@@ -124,8 +166,31 @@ namespace CM3D2.ModManagementTool.Mod
             writer.Write( buf.Length );
             writer.BaseStream.Write(buf, 0, buf.Length);
             
-            writer.Write(references.Count);
-            foreach(var set in references)
+            WriteStringArrayDict(writer, references);
+            WriteStringArrayDict(writer, includeFiles);
+        }
+
+        private static void ReadStringArrayDict(BinaryReader reader, Dictionary<string, List<string>> dict)
+        {
+            int count = reader.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                string relativePath = reader.ReadString();
+                int referCount = reader.ReadInt32();
+
+                List<string> refers = new List<string>(referCount);
+                for (int read = 0; read < referCount; read++)
+                {
+                    refers.Add( reader.ReadString() );
+                }
+                dict[relativePath] = refers;
+            }
+        }
+
+        private static void WriteStringArrayDict(BinaryWriter writer, Dictionary<string, List<string>> dict)
+        {
+            writer.Write(dict.Count);
+            foreach(var set in dict)
             {
                 writer.Write(set.Key);
                 writer.Write(set.Value.Count);
@@ -154,6 +219,25 @@ namespace CM3D2.ModManagementTool.Mod
         public void UnregisterReference(string relativePath)
         {
             references.Remove(relativePath);
+        }
+        
+        public List<string> QueryIncludeFiles(string relativePath)
+        {
+            if (!includeFiles.ContainsKey(relativePath))
+            {
+                return null;
+            }
+            return includeFiles[relativePath];
+        }
+
+        public void RegisterIncludeFiles(string relativePath, List<string> includeFiles)
+        {
+            this.includeFiles[relativePath] = includeFiles;
+        }
+
+        public void UnregisterIncludeFiles(string relativePath)
+        {
+            includeFiles.Remove(relativePath);
         }
     }
 }
