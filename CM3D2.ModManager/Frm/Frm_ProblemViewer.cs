@@ -31,7 +31,7 @@ namespace CM3D2.ModManager.Frm
                 Text = caption,
                 StartPosition = FormStartPosition.CenterScreen
             };
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+            Label textLabel = new Label() { Left = 50, Top = 20, Text = text, AutoSize = true };
             TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400, Text = boxText };
             Button confirmation = new Button() { Text = "진행", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
             confirmation.Click += (sender, e) => { prompt.Close(); };
