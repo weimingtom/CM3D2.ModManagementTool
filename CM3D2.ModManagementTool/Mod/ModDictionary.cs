@@ -65,7 +65,7 @@ namespace CM3D2.ModManagementTool.Mod
                 return;
             }
 
-            string name = Path.GetFileName(path);
+            string name = Path.GetFileName(path).ToLower();
 
             void insert<Type>(Dictionary<string, Type> store, Type data) where Type: BaseFile
             {
@@ -114,6 +114,7 @@ namespace CM3D2.ModManagementTool.Mod
 
         public BaseFile query(string name)
         {
+            name = name.ToLower();
             if (modFiles.ContainsKey(name))
             {
                 return modFiles[name];
