@@ -84,7 +84,22 @@ namespace CM3D2.ModManagementTool.Mod
 
             if(file is ModFile)
             {
-                insert(modFiles, (ModFile) file);
+                if (modFiles.ContainsKey(name))
+                {
+                    int i = 0;
+                    while (true)
+                    {
+                        if (!modFiles.ContainsKey(i + "_" + name))
+                        {
+                            modFiles[i + "_" + name] = (ModFile) file;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    modFiles.Add(name, (ModFile) file);
+                }
             }
             else if (file is MenuFile)
             {
