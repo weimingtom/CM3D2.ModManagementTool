@@ -66,6 +66,7 @@ namespace CM3D2.ModManager
             // 
             // cb_cacheType
             // 
+            this.cb_cacheType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_cacheType.FormattingEnabled = true;
             this.cb_cacheType.Items.AddRange(new object[] {
             "모든 캐시를 사용합니다 (파일 유효성 미검사)",
@@ -75,7 +76,6 @@ namespace CM3D2.ModManager
             this.cb_cacheType.Location = new System.Drawing.Point(12, 24);
             this.cb_cacheType.Name = "cb_cacheType";
             this.cb_cacheType.Size = new System.Drawing.Size(618, 20);
-            this.cb_cacheType.DropDownStyle = ComboBoxStyle.DropDownList;
             this.cb_cacheType.TabIndex = 3;
             // 
             // label1
