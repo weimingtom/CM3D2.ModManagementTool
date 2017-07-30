@@ -64,15 +64,24 @@ namespace CM3D2.ModManagementTool.Mod.File
 
                             foreach (string value in stringList)
                             {
-                                string lower = value.ToLower();
-                                if (lower.Contains("*"))
+                                try
                                 {
-                                    continue;
+                                    string lower = value.ToLower();
+                                    if (lower.Contains("*") || !isContainsCM3D2ExtensionString(lower))
+                                    {
+                                        continue;
+                                    }
+                                    
+                                    string exten = Path.GetExtension(lower);
+                                    
+                                    if (isCM3D2Extension(exten))
+                                    {
+                                        references.Add(value);
+                                    }
                                 }
-                                string exten = Path.GetFileName(lower);
-                                if (isCM3D2Extension(exten))
+                                catch (ArgumentException ae)
                                 {
-                                    references.Add(value);
+                                    errors.Add(new InvalidPathProblem(this, value, ae));
                                 }
                             }
                         }
@@ -81,7 +90,7 @@ namespace CM3D2.ModManagementTool.Mod.File
                 }
                 catch (ArgumentException ae)
                 {
-                    errors.Add(new InvalidPathProblem(this, path));
+                    errors.Add(new InvalidPathProblem(this, path, ae));
                 }
                 catch (Exception e)
                 {

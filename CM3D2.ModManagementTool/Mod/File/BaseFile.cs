@@ -104,6 +104,13 @@ namespace CM3D2.ModManagementTool.Mod.File
             }
         }
 
+        public static bool isContainsCM3D2ExtensionString(string str)
+        {
+            return str.Contains(CMExtensions.EXTENSION_MAT) || str.Contains(CMExtensions.EXTENSION_MENU)
+                   || str.Contains(CMExtensions.EXTENSION_MOD) || str.Contains(CMExtensions.EXTENSION_MODEL)
+                   || str.Contains(CMExtensions.EXTENSION_PRESET) || str.Contains(CMExtensions.EXTENSION_TEX);
+        }
+
         public static bool isCM3D2Extension(string exten)
         {
             exten = exten.ToLower();
