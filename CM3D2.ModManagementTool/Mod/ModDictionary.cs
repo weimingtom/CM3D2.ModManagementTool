@@ -94,6 +94,7 @@ namespace CM3D2.ModManagementTool.Mod
                             modFiles[i + "_" + name] = (ModFile) file;
                             break;
                         }
+                        i++;
                     }
                 }
                 else
