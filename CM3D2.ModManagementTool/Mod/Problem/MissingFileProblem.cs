@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CM3D2.ModManager.Utils;
+using CM3D2.ModManagementTool.Utils;
 using System.IO;
-using CM3D2.ModManager.Mod.File;
+using CM3D2.ModManagementTool.Mod.File;
 
-namespace CM3D2.ModManager.Mod.Problem
+namespace CM3D2.ModManagementTool.Mod.Problem
 {
     //대상 파일에서 요청되는 파일이 없는경우
     public class MissingFileProblem : BaseProblem

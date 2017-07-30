@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CM3D2.ModManager.Utils;
+using CM3D2.ModManagementTool.Utils;
 using System.IO;
-using CM3D2.ModManager.Mod.File;
+using CM3D2.ModManagementTool.Mod.File;
 
-namespace CM3D2.ModManager.Mod.Problem
+namespace CM3D2.ModManagementTool.Mod.Problem
 {
     class InvalidCMFileProblem : BaseProblem
     {

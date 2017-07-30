@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace CM3D2.ModManager.Frm
+namespace CM3D2.ModManagementTool.Frm
 {
     partial class Frm_ProblemViewer
     {

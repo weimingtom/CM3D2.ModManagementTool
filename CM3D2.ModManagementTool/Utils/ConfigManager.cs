@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CM3D2.ModManager.Utils
+namespace CM3D2.ModManagementTool.Utils
 {
     class ConfigManager
     {

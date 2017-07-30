@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace CM3D2.ModManager
+namespace CM3D2.ModManagementTool
 {
     partial class Frm_Loader
     {

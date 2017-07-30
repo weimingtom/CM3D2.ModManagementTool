@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CM3D2.ModManager
+namespace CM3D2.ModManagementTool
 {
     static class Program
     {

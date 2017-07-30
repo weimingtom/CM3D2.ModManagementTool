@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using CM3D2.ModManager.Mod.Problem;
-using CM3D2.ModManager.Utils;
+using CM3D2.ModManagementTool.Mod.Problem;
+using CM3D2.ModManagementTool.Utils;
 
-namespace CM3D2.ModManager.Mod.File
+namespace CM3D2.ModManagementTool.Mod.File
 {
     /**
      * 파일의 정보를 기록하는데 쓰이는 기초 클래스

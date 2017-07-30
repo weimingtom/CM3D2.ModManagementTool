@@ -1,4 +1,4 @@
-﻿namespace CM3D2.ModManager.Mod
+﻿namespace CM3D2.ModManagementTool.Mod
 {
     public enum CacheLoadOption
     {

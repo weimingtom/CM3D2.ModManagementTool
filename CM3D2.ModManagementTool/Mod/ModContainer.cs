@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 using System.IO;
 using System.Security.Cryptography;
-using CM3D2.ModManager.Mod.File;
-using CM3D2.ModManager.Mod.Problem;
-using CM3D2.ModManager.Utils;
+using CM3D2.ModManagementTool.Mod.File;
+using CM3D2.ModManagementTool.Mod.Problem;
+using CM3D2.ModManagementTool.Utils;
 
-namespace CM3D2.ModManager.Mod
+namespace CM3D2.ModManagementTool.Mod
 {
     class ModContainer
     {

@@ -10,11 +10,11 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 
-using CM3D2.ModManager.Utils;
+using CM3D2.ModManagementTool.Utils;
 using System.Diagnostics;
-using CM3D2.ModManager.Mod;
+using CM3D2.ModManagementTool.Mod;
 
-namespace CM3D2.ModManager
+namespace CM3D2.ModManagementTool
 {
     public partial class Frm_Loader : Form
     {

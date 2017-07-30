@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CM3D2.ModManager.Mod.File;
-using CM3D2.ModManager.Utils;
+using CM3D2.ModManagementTool.Mod.File;
+using CM3D2.ModManagementTool.Utils;
 
-namespace CM3D2.ModManager.Mod
+namespace CM3D2.ModManagementTool.Mod
 {
     public class CacheStore
     {

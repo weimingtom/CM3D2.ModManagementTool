@@ -3,10 +3,10 @@
 using Injected;
 using System;
 using System.Diagnostics;
-using CM3D2.ModManager.Mod;
-using CM3D2.ModManager.Mod.File;
+using CM3D2.ModManagementTool.Mod;
+using CM3D2.ModManagementTool.Mod.File;
 
-namespace CM3D2.ModManager.Utils
+namespace CM3D2.ModManagementTool.Utils
 {
     public abstract class Readable
     {

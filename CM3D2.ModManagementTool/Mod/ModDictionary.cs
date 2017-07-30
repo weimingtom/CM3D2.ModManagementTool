@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using CM3D2.ModManager.Mod.File;
+using CM3D2.ModManagementTool.Mod.File;
 
-namespace CM3D2.ModManager.Mod
+namespace CM3D2.ModManagementTool.Mod
 {
     class ModDictionary
     {

@@ -3,10 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using CM3D2.ModManager.Mod.Problem;
-using CM3D2.ModManager.Utils;
+using CM3D2.ModManagementTool.Mod.Problem;
+using CM3D2.ModManagementTool.Utils;
 
-namespace CM3D2.ModManager.Mod.File
+namespace CM3D2.ModManagementTool.Mod.File
 {
     class MenuFile : ReferenceFile
     {

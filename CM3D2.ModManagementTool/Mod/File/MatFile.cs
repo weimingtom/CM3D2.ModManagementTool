@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace CM3D2.ModManager.Mod.File
+namespace CM3D2.ModManagementTool.Mod.File
 {
     class MatFile : BaseFile
     {

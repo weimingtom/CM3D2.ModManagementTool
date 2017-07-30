@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CM3D2.ModManager.Properties
+namespace CM3D2.ModManagementTool.Properties
 {
 
 

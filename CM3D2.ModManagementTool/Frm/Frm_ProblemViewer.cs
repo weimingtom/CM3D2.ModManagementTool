@@ -8,14 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using CM3D2.ModManager.Utils;
-using CM3D2.ModManager.Mod.Problem;
+using CM3D2.ModManagementTool.Utils;
+using CM3D2.ModManagementTool.Mod.Problem;
 using System.IO;
 using System.Diagnostics;
-using CM3D2.ModManager.Mod;
-using CM3D2.ModManager.Mod.File;
+using CM3D2.ModManagementTool.Mod;
+using CM3D2.ModManagementTool.Mod.File;
 
-namespace CM3D2.ModManager.Frm
+namespace CM3D2.ModManagementTool.Frm
 {
 
 
