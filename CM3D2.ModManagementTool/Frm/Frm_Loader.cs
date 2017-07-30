@@ -137,6 +137,10 @@ namespace CM3D2.ModManagementTool
                         ModContainer.Single.RebuildPaths();
                         ModContainer.Single.Reload();
                         break;
+                    case CacheLoadOption.READ_ONLY_PATHS:
+                        ModContainer.Single.CacheStore.ClearExtraData();
+                        ModContainer.Single.Reload();
+                        break;
                 }
             }
             else
@@ -180,6 +184,9 @@ namespace CM3D2.ModManagementTool
                         _cacheLoadOption = CacheLoadOption.READ_ONLY_REFERENCE;
                         break;
                     case 3:
+                        _cacheLoadOption = CacheLoadOption.READ_ONLY_PATHS;
+                        break;
+                    case 4:
                         _cacheLoadOption = CacheLoadOption.NO_CACHE;
                         break;
             }

@@ -17,6 +17,13 @@ namespace CM3D2.ModManagementTool.Mod
         {
             relativePaths.Clear();
             references.Clear();
+            includeFiles.Clear();
+        }
+
+        public void ClearExtraData()
+        {
+            references.Clear();
+            includeFiles.Clear();
         }
 
         public void ClearPaths()
@@ -61,8 +68,11 @@ namespace CM3D2.ModManagementTool.Mod
                 reader.BaseStream.Seek(bytesLen, SeekOrigin.Current);
             }
 
-            ReadStringArrayDict(reader, references);
-            ReadStringArrayDict(reader, includeFiles);
+            if (option != CacheLoadOption.READ_ONLY_PATHS)
+            {
+                ReadStringArrayDict(reader, references);
+                ReadStringArrayDict(reader, includeFiles);
+            }
         }
 
         //대상파일을 캐시에서 제외시킵니다

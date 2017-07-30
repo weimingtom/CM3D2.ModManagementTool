@@ -72,6 +72,7 @@ namespace CM3D2.ModManagementTool
             "모든 캐시를 사용합니다 (파일 유효성 미검사)",
             "모든 캐시를 사용합니다 (파일 유효성 검사)",
             "파일 내부정보 캐시만 사용합니다 (파일목록 재생성)",
+            "파일 목록 캐시만 사용합니다 (내부정보 재생성)",
             "캐시를 사용하지 않습니다."});
             this.cb_cacheType.Location = new System.Drawing.Point(12, 24);
             this.cb_cacheType.Name = "cb_cacheType";
