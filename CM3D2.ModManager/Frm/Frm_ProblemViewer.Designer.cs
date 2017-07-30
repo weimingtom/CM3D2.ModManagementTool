@@ -46,6 +46,7 @@ namespace CM3D2.ModManager.Frm
             this.btn_RenameIt = new System.Windows.Forms.Button();
             this.btn_openFirst = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.btn_OpenAllFiles = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lb_Errors
@@ -119,7 +120,7 @@ namespace CM3D2.ModManager.Frm
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(321, 208);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(407, 12);
+            this.label2.Size = new System.Drawing.Size(481, 12);
             this.label2.TabIndex = 8;
             this.label2.Text = "파일 목록 (F2, F3 버튼으로 현재 선택중인 파일을 1번, 2번 파일로 설정 할 수 있습니다.)";
             // 
@@ -201,11 +202,22 @@ namespace CM3D2.ModManager.Frm
             this.label3.TabIndex = 16;
             this.label3.Text = "갱신하기 전까지, 오류는 실질적으로 해결되었더라도 목록에서 제거되지 않습니다.";
             // 
+            // btn_OpenAllFiles
+            // 
+            this.btn_OpenAllFiles.Location = new System.Drawing.Point(755, 435);
+            this.btn_OpenAllFiles.Name = "btn_OpenAllFiles";
+            this.btn_OpenAllFiles.Size = new System.Drawing.Size(133, 23);
+            this.btn_OpenAllFiles.TabIndex = 17;
+            this.btn_OpenAllFiles.Text = "모든 파일 열기";
+            this.btn_OpenAllFiles.UseVisualStyleBackColor = true;
+            this.btn_OpenAllFiles.Click += new System.EventHandler(this.btn_OpenAllFiles_Click);
+            // 
             // Frm_ProblemViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(899, 560);
+            this.Controls.Add(this.btn_OpenAllFiles);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btn_openFirst);
             this.Controls.Add(this.btn_RenameIt);
@@ -226,8 +238,8 @@ namespace CM3D2.ModManager.Frm
             this.Name = "Frm_ProblemViewer";
             this.Text = "오류 탐색기";
             this.Load += new System.EventHandler(this.Frm_ProblemViewer_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Frm_ProblemViewer_KeyDown);
             this.Resize += new System.EventHandler(this.Frm_ProblemViewer_Resize);
-            this.KeyDown += new KeyEventHandler(this.Frm_ProblemViewer_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -251,5 +263,6 @@ namespace CM3D2.ModManager.Frm
         private System.Windows.Forms.Button btn_RenameIt;
         private System.Windows.Forms.Button btn_openFirst;
         private System.Windows.Forms.Label label3;
+        private Button btn_OpenAllFiles;
     }
 }

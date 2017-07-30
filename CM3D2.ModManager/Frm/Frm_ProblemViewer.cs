@@ -163,7 +163,7 @@ namespace CM3D2.ModManager.Frm
         {
             if(selected != null)
             {
-                Process.Start("explorer.exe", "/select,\"" + selected.getIssueFile().path + "\"");
+                FileHelper.openInExplorer( selected.getIssueFile().path );
             }
         }
 
@@ -171,7 +171,7 @@ namespace CM3D2.ModManager.Frm
         {
             if(first_file != null)
             {
-                Process.Start("explorer.exe", "/select,\"" + first_file.path + "\"");
+                FileHelper.openInExplorer( first_file.path );
             }
         }
         
@@ -286,6 +286,17 @@ namespace CM3D2.ModManager.Frm
         {
             tb_ErrorMessage.Width = Width - tb_ErrorMessage.Location.X - 32;
             lb_FileList.Width = Width - lb_FileList.Location.X - 32;
+        }
+
+        private void btn_OpenAllFiles_Click(object sender, EventArgs e)
+        {
+            if (selected is DuplicateProblem)
+            {
+                foreach (var file in selected.getIssueFile().duplicateFiles)
+                {
+                    FileHelper.openInExplorer(file.path);
+                }
+            }
         }
     }
 }

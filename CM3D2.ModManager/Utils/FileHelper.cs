@@ -2,6 +2,7 @@
 
 using Injected;
 using System;
+using System.Diagnostics;
 using CM3D2.ModManager.Mod;
 using CM3D2.ModManager.Mod.File;
 
@@ -98,6 +99,11 @@ namespace CM3D2.ModManager.Utils
             }
 
             return null;
+        }
+
+        public static void openInExplorer(string path)
+        {
+            Process.Start("explorer.exe", $"/select,\"{path}\"");
         }
         
         /**
