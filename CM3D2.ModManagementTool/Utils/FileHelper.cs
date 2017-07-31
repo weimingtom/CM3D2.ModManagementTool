@@ -81,20 +81,6 @@ namespace CM3D2.ModManagementTool.Utils
             }
 
             _fileBase.Dispose();
-
-            if (name != name.ToLower())
-            {
-                _fileBase = GameUty.FileOpen(name.ToLower());
-
-                if( _fileBase.IsValid() )
-                {
-                    _fileBase.Dispose();
-                    return true;
-                }
-
-                _fileBase.Dispose();
-            }
-            
             return false;
         }
 
