@@ -157,6 +157,8 @@ namespace CM3D2.ModManagementTool.Frm
                     lb_Errors.Items.Add(error.getSummary());
                 }
             });
+
+            lbl_ErrorCount.Text = "오류 갯수: " + lb_Errors.Items.Count + "개";
         }
 
         private void btn_OpenPath_Click(object sender, EventArgs e)

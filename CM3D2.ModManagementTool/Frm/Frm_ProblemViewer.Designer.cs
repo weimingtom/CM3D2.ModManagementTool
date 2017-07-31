@@ -47,6 +47,7 @@ namespace CM3D2.ModManagementTool.Frm
             this.btn_openFirst = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.btn_OpenAllFiles = new System.Windows.Forms.Button();
+            this.lbl_ErrorCount = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lb_Errors
@@ -196,11 +197,12 @@ namespace CM3D2.ModManagementTool.Frm
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(12, 539);
+            this.label3.Location = new System.Drawing.Point(10, 544);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(492, 24);
             this.label3.TabIndex = 16;
-            this.label3.Text = "모드 관리툴을 통해 변경된 파일의 파일목록 캐시는 자동으로 변경됩니다.\r\n갱신하기 전까지, 오류는 실질적으로 해결되었더라도 목록에서 제거되지 않습니다.";
+            this.label3.Text = "모드 관리툴을 통해 변경된 파일의 파일목록 캐시는 자동으로 변경됩니다.\r\n갱신하기 전까지, 오류는 실질적으로 해결되었더라도 목록에서 제거되지 않습" +
+    "니다.";
             // 
             // btn_OpenAllFiles
             // 
@@ -212,11 +214,21 @@ namespace CM3D2.ModManagementTool.Frm
             this.btn_OpenAllFiles.UseVisualStyleBackColor = true;
             this.btn_OpenAllFiles.Click += new System.EventHandler(this.btn_OpenAllFiles_Click);
             // 
+            // lbl_ErrorCount
+            // 
+            this.lbl_ErrorCount.AutoSize = true;
+            this.lbl_ErrorCount.Location = new System.Drawing.Point(12, 523);
+            this.lbl_ErrorCount.Name = "lbl_ErrorCount";
+            this.lbl_ErrorCount.Size = new System.Drawing.Size(121, 12);
+            this.lbl_ErrorCount.TabIndex = 18;
+            this.lbl_ErrorCount.Text = "오류 갯수: 알 수 없음";
+            // 
             // Frm_ProblemViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(899, 572);
+            this.ClientSize = new System.Drawing.Size(899, 579);
+            this.Controls.Add(this.lbl_ErrorCount);
             this.Controls.Add(this.btn_OpenAllFiles);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btn_openFirst);
@@ -264,5 +276,6 @@ namespace CM3D2.ModManagementTool.Frm
         private System.Windows.Forms.Button btn_openFirst;
         private System.Windows.Forms.Label label3;
         private Button btn_OpenAllFiles;
+        private Label lbl_ErrorCount;
     }
 }
