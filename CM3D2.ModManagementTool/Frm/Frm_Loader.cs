@@ -141,6 +141,9 @@ namespace CM3D2.ModManagementTool
                         ModContainer.Single.CacheStore.ClearExtraData();
                         ModContainer.Single.Reload();
                         break;
+                    case CacheLoadOption.READ_ALL:
+                        ModContainer.Single.Reload();
+                        break;
                 }
             }
             else
