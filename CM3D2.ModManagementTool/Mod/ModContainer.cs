@@ -12,7 +12,49 @@ namespace CM3D2.ModManagementTool.Mod
 {
     class ModContainer
     {
+        private FileSystemWatcher watcher;
         
+        //주어진 파일들을 삭제합니다.
+        public void DeleteFile(params BaseFile[] files)
+        {
+            foreach (var file in files)
+            {
+                System.IO.File.Delete(file.path);
+            }
+            
+        }
+
+        //dest를 삭제하고 dest의 경로로 src 파일을 옮깁니다.
+        public void OverMoveFile(BaseFile src, BaseFile dest)
+        {
+            System.IO.File.Delete(dest.path);
+            System.IO.File.Move(src.path, dest.path);
+        }
+
+        //파일을 이동합니다
+        public void MoveFile(BaseFile file, string destPath)
+        {
+            System.IO.File.Move(file.path, destPath);
+        }
+
+        private void Created(object source, FileSystemEventArgs e)
+        {
+            CacheStore.RegisterRelativePath( e.FullPath );
+        }
+        private void Changed(object source, FileSystemEventArgs e)
+        {
+            CacheStore.Invalid(toRelativePath(e.FullPath), false);
+        }
+        private void Renamed(object source, RenamedEventArgs e)
+        {
+            CacheStore.Invalid(toRelativePath(e.OldFullPath), true);
+            CacheStore.RegisterRelativePath(toRelativePath( e.FullPath ));
+        }
+        private void Deleted(object source, FileSystemEventArgs e)
+        {
+            CacheStore.Invalid(toRelativePath(e.FullPath), true);
+        }
+
         public event MessageReceiver messages;
         public delegate void MessageReceiver(string message);
 
@@ -60,9 +102,18 @@ namespace CM3D2.ModManagementTool.Mod
         public ModContainer(string path)
         {
             this.rootDir = path;
+            
+            watcher = new FileSystemWatcher();
+            watcher.Path = rootDir;
+            watcher.Created += Created;
+            watcher.Changed += Changed;
+            watcher.Renamed += Renamed;
+            watcher.Deleted += Deleted;
+
+            watcher.EnableRaisingEvents = true;
         }
 
-        public string trimPath(string path)
+        public string toRelativePath(string path)
         {
             return path.Replace(this.rootDir, "");
         }
@@ -135,7 +186,7 @@ namespace CM3D2.ModManagementTool.Mod
 
             fileNameDict.forEach(item =>
             {
-                messages("검증: " + trimPath(item.path) );
+                messages("검증: " + toRelativePath(item.path) );
                 item.Verify();
             });
 
@@ -191,40 +242,10 @@ namespace CM3D2.ModManagementTool.Mod
         {
             foreach(string path in Directory.EnumerateFiles(rootDir, "*.*", SearchOption.AllDirectories))
             {
-                string relativePath = trimPath(path);
+                string relativePath = toRelativePath(path);
                 messages("탐색: " + relativePath);
                 CacheStore.RegisterRelativePath(relativePath);
             }
-        }
-
-        
-        //주어진 파일들을 삭제합니다.
-        public void DeleteFile(params BaseFile[] files)
-        {
-            foreach (var file in files)
-            {
-                System.IO.File.Delete(file.path);
-            }
-            CacheStore.Invalid(true, files);
-        }
-
-        //dest를 삭제하고 dest의 경로로 src 파일을 옮깁니다.
-        public void OverMoveFile(BaseFile src, BaseFile dest)
-        {
-            System.IO.File.Delete(dest.path);
-            System.IO.File.Move(src.path, dest.path);
-
-            CacheStore.Invalid(src.relativePath, true);
-            CacheStore.Invalid(dest.relativePath, false);
-        }
-
-        //파일을 이동합니다
-        public void MoveFile(BaseFile file, string destPath)
-        {
-            System.IO.File.Move(file.path, destPath);
-            
-            CacheStore.Invalid(file.relativePath, true);
-            CacheStore.RegisterRelativePath( trimPath(destPath) );
         }
 
         public void deleteCache()

@@ -199,10 +199,10 @@ namespace CM3D2.ModManagementTool.Frm
             this.label3.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.label3.Location = new System.Drawing.Point(10, 544);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(492, 24);
+            this.label3.Size = new System.Drawing.Size(704, 24);
             this.label3.TabIndex = 16;
-            this.label3.Text = "모드 관리툴을 통해 변경된 파일의 파일목록 캐시는 자동으로 변경됩니다.\r\n갱신하기 전까지, 오류는 실질적으로 해결되었더라도 목록에서 제거되지 않습" +
-    "니다.";
+            this.label3.Text = "모드 관리툴이 열려있을때, 내부 파일의 캐시정보는 자동으로 갱신됩니다. 단 수동갱신하기 전까지 저장되지 않습니다.\r\n갱신하기 전까지, 오류는 실질" +
+    "적으로 해결되었더라도 목록에서 제거되지 않습니다.";
             // 
             // btn_OpenAllFiles
             // 
