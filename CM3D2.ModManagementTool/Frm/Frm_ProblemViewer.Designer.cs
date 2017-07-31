@@ -203,7 +203,7 @@ namespace CM3D2.ModManagementTool.Frm
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(704, 24);
             this.label3.TabIndex = 16;
-            this.label3.Text = "모드 관리툴이 열려있을때, 내부 파일의 캐시정보는 자동으로 갱신됩니다. 단 수동갱신하기 전까지 저장되지 않습니다.\r\n갱신하기 전까지, 오류는 실질" +
+            this.label3.Text = "모드 관리툴로 생성한 변경점은 자동으로 캐시에 반영됩니다 (저장은 되지 않음)\r\n갱신하기 전까지, 오류는 실질" +
     "적으로 해결되었더라도 목록에서 제거되지 않습니다.";
             // 
             // btn_OpenAllFiles
