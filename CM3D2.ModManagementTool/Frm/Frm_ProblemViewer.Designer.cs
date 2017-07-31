@@ -48,6 +48,8 @@ namespace CM3D2.ModManagementTool.Frm
             this.label3 = new System.Windows.Forms.Label();
             this.btn_OpenAllFiles = new System.Windows.Forms.Button();
             this.lbl_ErrorCount = new System.Windows.Forms.Label();
+            this.btn_MarkAsSolved = new System.Windows.Forms.Button();
+            this.btn_AutoClean = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lb_Errors
@@ -165,7 +167,7 @@ namespace CM3D2.ModManagementTool.Frm
             // 
             // btn_refreshStore
             // 
-            this.btn_refreshStore.Location = new System.Drawing.Point(765, 501);
+            this.btn_refreshStore.Location = new System.Drawing.Point(765, 544);
             this.btn_refreshStore.Name = "btn_refreshStore";
             this.btn_refreshStore.Size = new System.Drawing.Size(124, 23);
             this.btn_refreshStore.TabIndex = 13;
@@ -223,11 +225,33 @@ namespace CM3D2.ModManagementTool.Frm
             this.lbl_ErrorCount.TabIndex = 18;
             this.lbl_ErrorCount.Text = "오류 갯수: 알 수 없음";
             // 
+            // btn_MarkAsSolved
+            // 
+            this.btn_MarkAsSolved.Location = new System.Drawing.Point(431, 497);
+            this.btn_MarkAsSolved.Name = "btn_MarkAsSolved";
+            this.btn_MarkAsSolved.Size = new System.Drawing.Size(169, 23);
+            this.btn_MarkAsSolved.TabIndex = 19;
+            this.btn_MarkAsSolved.Text = "이 오류를 리스트에서 제거";
+            this.btn_MarkAsSolved.UseVisualStyleBackColor = true;
+            this.btn_MarkAsSolved.Click += new System.EventHandler(this.btn_MarkAsSolved_Click);
+            // 
+            // btn_AutoClean
+            // 
+            this.btn_AutoClean.Location = new System.Drawing.Point(606, 497);
+            this.btn_AutoClean.Name = "btn_AutoClean";
+            this.btn_AutoClean.Size = new System.Drawing.Size(180, 23);
+            this.btn_AutoClean.TabIndex = 20;
+            this.btn_AutoClean.Text = "이 오류가 해결되었다면 제거";
+            this.btn_AutoClean.UseVisualStyleBackColor = true;
+            this.btn_AutoClean.Click += new System.EventHandler(this.btn_AutoClean_Click);
+            // 
             // Frm_ProblemViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(899, 579);
+            this.Controls.Add(this.btn_AutoClean);
+            this.Controls.Add(this.btn_MarkAsSolved);
             this.Controls.Add(this.lbl_ErrorCount);
             this.Controls.Add(this.btn_OpenAllFiles);
             this.Controls.Add(this.label3);
@@ -277,5 +301,7 @@ namespace CM3D2.ModManagementTool.Frm
         private System.Windows.Forms.Label label3;
         private Button btn_OpenAllFiles;
         private Label lbl_ErrorCount;
+        private Button btn_MarkAsSolved;
+        private Button btn_AutoClean;
     }
 }
