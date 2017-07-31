@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using System.IO;
 using System.Security.Cryptography;
+using System.Threading;
 using CM3D2.ModManagementTool.Mod.File;
 using CM3D2.ModManagementTool.Mod.Problem;
 using CM3D2.ModManagementTool.Utils;
@@ -39,20 +40,25 @@ namespace CM3D2.ModManagementTool.Mod
 
         private void Created(object source, FileSystemEventArgs e)
         {
-            CacheStore.RegisterRelativePath( e.FullPath );
+            ThreadPool.QueueUserWorkItem(o => 
+                    CacheStore.RegisterRelativePath( toRelativePath(e.FullPath) ));
         }
         private void Changed(object source, FileSystemEventArgs e)
         {
-            CacheStore.Invalid(toRelativePath(e.FullPath), false);
+            ThreadPool.QueueUserWorkItem(o => 
+                CacheStore.Invalid(toRelativePath(e.FullPath), false));
         }
         private void Renamed(object source, RenamedEventArgs e)
         {
-            CacheStore.Invalid(toRelativePath(e.OldFullPath), true);
-            CacheStore.RegisterRelativePath(toRelativePath( e.FullPath ));
+            ThreadPool.QueueUserWorkItem(o => 
+                CacheStore.Invalid(toRelativePath(e.OldFullPath), true));
+            ThreadPool.QueueUserWorkItem(o => 
+                CacheStore.RegisterRelativePath(toRelativePath( e.FullPath )));
         }
         private void Deleted(object source, FileSystemEventArgs e)
         {
-            CacheStore.Invalid(toRelativePath(e.FullPath), true);
+            ThreadPool.QueueUserWorkItem(o => 
+                CacheStore.Invalid(toRelativePath(e.FullPath), true));
         }
 
         public event MessageReceiver messages;
@@ -105,10 +111,15 @@ namespace CM3D2.ModManagementTool.Mod
             
             watcher = new FileSystemWatcher();
             watcher.Path = rootDir;
+            watcher.IncludeSubdirectories = true;
+            watcher.NotifyFilter = NotifyFilters.FileName;
+            watcher.Filter = "";
             watcher.Created += Created;
             watcher.Changed += Changed;
             watcher.Renamed += Renamed;
             watcher.Deleted += Deleted;
+
+            watcher.InternalBufferSize = 65536;
 
             watcher.EnableRaisingEvents = true;
         }

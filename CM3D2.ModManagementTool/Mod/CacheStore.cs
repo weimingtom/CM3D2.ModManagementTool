@@ -78,16 +78,31 @@ namespace CM3D2.ModManagementTool.Mod
         //대상파일을 캐시에서 제외시킵니다
         public void Invalid(string relativePath, bool includeFile)
         {
+            System.Diagnostics.Debug.WriteLine("Invalid:" + relativePath);
             if (includeFile)
             {
-                this.relativePaths.RemoveAll(item => item == relativePath);
+                this.relativePaths.RemoveAll(item =>
+                {
+                    if (item == relativePath)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Invalided path:" + item);
+                        return true;
+                    }
+                    return false;
+                });
             }
 
-            if(references.ContainsKey(relativePath))
+            if (references.ContainsKey(relativePath))
+            {
+                System.Diagnostics.Debug.WriteLine("Invalided references:" + relativePath);
                 references.Remove(relativePath);
+            }
 
             if (includeFiles.ContainsKey(relativePath))
+            {
+                System.Diagnostics.Debug.WriteLine("Invalided includeFiles:" + relativePath);
                 includeFiles.Remove(relativePath);
+            }
         }
 
         public void Invalid(bool includeFile, params BaseFile[] relativePaths)
