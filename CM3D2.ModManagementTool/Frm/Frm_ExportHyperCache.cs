@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CM3D2.ModManagementTool.Mod;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -78,6 +80,17 @@ namespace CM3D2.ModManagementTool.Frm
         private void Processing()
         {
             updateStatus("작업 시작");
+
+            BinaryWriter writer = new BinaryWriter( new FileStream("CM3D2.HyperCache.dat", FileMode.Create) );
+            writer.Write(ModContainer.Single.rootDir);
+
+            writer.Write(ModContainer.Single.FilesCount());
+            ModContainer.Single.foreachFiles(item =>
+            {
+                writer.Write(item.relativePath);
+            });
+
+            writer.Close();
 
             updateStatus("작업 종료");
         }

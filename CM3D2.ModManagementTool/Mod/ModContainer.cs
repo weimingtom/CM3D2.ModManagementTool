@@ -80,6 +80,10 @@ namespace CM3D2.ModManagementTool.Mod
         {
             fileNameDict.forEach(each);
         }
+        public long FilesCount()
+        {
+            return fileNameDict.getCount();
+        }
 
         public readonly CacheStore CacheStore = new CacheStore();
 

@@ -21,6 +21,11 @@ namespace CM3D2.ModManagementTool.Mod
             this.duplicateCheck = duplicateCheck;
         }
 
+        public long getCount()
+        {
+            return modFiles.Count + menuFiles.Count + texFiles.Count + matFiles.Count + modelFiles.Count + presetFiles.Count;
+        }
+
         public delegate void forEachItems(BaseFile file);
 
         public void forEach(forEachItems each)
