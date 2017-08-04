@@ -25,7 +25,7 @@ namespace CM3D2.ModManagementTool
                 return;
             }
             
-            Application.Run(new Frm.Frm_ProblemViewer());
+            Application.Run(new Frm.Frm_Main());
         }
     }
 }

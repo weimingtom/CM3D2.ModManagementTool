@@ -67,11 +67,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Frm\Frm_ExportHyperCache.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\Frm_ExportHyperCache.Designer.cs">
+      <DependentUpon>Frm_ExportHyperCache.cs</DependentUpon>
+    </Compile>
     <Compile Include="Frm\Frm_Loader.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Frm\Frm_Loader.Designer.cs">
       <DependentUpon>Frm_Loader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Frm\Frm_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\Frm_Main.Designer.cs">
+      <DependentUpon>Frm_Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Frm\Frm_ProblemViewer.cs">
       <SubType>Form</SubType>
@@ -103,8 +115,14 @@
     <Compile Include="Utils\FileHelper.cs" />
     <Compile Include="Utils\Include.cs" />
     <Compile Include="Mod\ModContainer.cs" />
+    <EmbeddedResource Include="Frm\Frm_ExportHyperCache.resx">
+      <DependentUpon>Frm_ExportHyperCache.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Frm\Frm_Loader.resx">
       <DependentUpon>Frm_Loader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm\Frm_Main.resx">
+      <DependentUpon>Frm_Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm\Frm_ProblemViewer.resx">
       <DependentUpon>Frm_ProblemViewer.cs</DependentUpon>
