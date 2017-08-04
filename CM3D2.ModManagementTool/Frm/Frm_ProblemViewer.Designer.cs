@@ -241,7 +241,7 @@ namespace CM3D2.ModManagementTool.Frm
             this.btn_AutoClean.Name = "btn_AutoClean";
             this.btn_AutoClean.Size = new System.Drawing.Size(180, 23);
             this.btn_AutoClean.TabIndex = 20;
-            this.btn_AutoClean.Text = "이 오류가 해결되었다면 제거";
+            this.btn_AutoClean.Text = "해결된 오류를 제거";
             this.btn_AutoClean.UseVisualStyleBackColor = true;
             this.btn_AutoClean.Click += new System.EventHandler(this.btn_AutoClean_Click);
             // 

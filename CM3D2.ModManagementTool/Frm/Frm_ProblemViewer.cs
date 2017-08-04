@@ -320,35 +320,30 @@ namespace CM3D2.ModManagementTool.Frm
 
         private void btn_AutoClean_Click(object sender, EventArgs e)
         {
-            if (selected == null)
+            for (int i = 0; i < problems.Count; i++)
             {
-                return;
-            }
-
-            if ( selected is DuplicateProblem )
-            {
-                int count = 0;
-                foreach(BaseFile file in selected.getIssueFile().duplicateFiles)
+                BaseProblem problem = problems[i];
+                if ( problem is DuplicateProblem )
                 {
-                    if( File.Exists(file.path) )
+                    int count = 0;
+                    foreach(BaseFile file in problem.getIssueFile().duplicateFiles)
                     {
-                        count++;
+                        if( File.Exists(file.path) )
+                        {
+                            count++;
+                        }
                     }
+                    if (count > 1) continue;
                 }
-                if (count > 1) return;
+                else
+                {
+                    continue;
+                }
+                
+                problems.RemoveAt(i);
+                lb_Errors.Items.RemoveAt(i);
+                i--;
             }
-            else
-            {
-                return;
-            }
-
-            problems.RemoveAt(selected_inx);
-            lb_Errors.Items.RemoveAt(selected_inx);
-            try
-            {
-                lb_Errors.SelectedIndex = selected_inx;
-            }
-            catch { }
 
             lbl_ErrorCount.Text = "오류 갯수: " + lb_Errors.Items.Count + "개";
         }
