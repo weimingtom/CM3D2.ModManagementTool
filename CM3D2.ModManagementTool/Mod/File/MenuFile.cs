@@ -110,6 +110,10 @@ namespace CM3D2.ModManagementTool.Mod.File
 
             foreach (string path in references)
             {
+                if (path.Contains("_mekure") || path.Contains("_zurashi"))
+                {
+                    continue;
+                }
                 if (!FileHelper.isExist(path))
                 {
                     errors.Add(new MissingFileProblem(this, path));
