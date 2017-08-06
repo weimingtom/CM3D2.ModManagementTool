@@ -9,8 +9,14 @@ namespace CM3D2.HyperCache
     //Reference https://github.com/asm256/CM3D2.ArchiveReplacer/blob/master/CM3D2.ArchiveReplacer.Hook.cs :AFile
     public class WindowsFile : AFileBase
     {
-        public override DLLFile.Data object_data => throw new NotImplementedException();
-
+        public override DLLFile.Data object_data
+        {
+            get
+            {
+                Console.WriteLine("tried DLL Pointer for: " + path);
+                throw new NotImplementedException();
+            }
+        }
         private string path;
         private FileStream stream;
 
@@ -23,6 +29,7 @@ namespace CM3D2.HyperCache
             }
             catch(Exception e)
             {
+                Console.WriteLine("failed open file for: " + path);
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.StackTrace);
                 stream = null;
@@ -36,6 +43,10 @@ namespace CM3D2.HyperCache
 
         public override bool IsValid()
         {
+            if(stream == null)
+            {
+                Console.WriteLine("invalid file for: " + path);
+            }
             return stream != null;
         }
 
@@ -78,6 +89,7 @@ namespace CM3D2.HyperCache
     public class CachedFileSystem : FileSystemArchive
     {
         private Dictionary<string, string> files = new Dictionary<string, string>();
+        private Dictionary<string, string> internalNameFiles = new Dictionary<string, string>();
         private string[] modFiles;
         private string root;
 
@@ -104,6 +116,7 @@ namespace CM3D2.HyperCache
                 for (int i = 0; i < count; i++)
                 {
                     string relativePath = reader.ReadString();
+                    string internalName = reader.ReadString();
 
                     if (relativePath.EndsWith(".mod"))
                     {
@@ -112,6 +125,10 @@ namespace CM3D2.HyperCache
                     else
                     {
                         files[Path.GetFileName(relativePath).ToLower()] = relativePath;
+                        if (internalName != "")
+                        {
+                            internalNameFiles[internalName.ToLower()] = relativePath;
+                        }
                     }
                 }
 
@@ -138,13 +155,25 @@ namespace CM3D2.HyperCache
         public override bool IsExistentFile(string file_name)
         {
             string lower = file_name.ToLower();
+
+            if(internalNameFiles.ContainsKey(lower))
+            {
+                return true;
+            }
+
             return files.ContainsKey(lower) ? true : base.IsExistentFile(file_name);
         }
 
         public override AFileBase FileOpen(string file_name)
         {
             string lower = file_name.ToLower();
-            if( files.ContainsKey(lower))
+
+            if (internalNameFiles.ContainsKey(lower))
+            {
+                return new WindowsFile(Path.GetFullPath(root + internalNameFiles[lower]));
+            }
+
+            if ( files.ContainsKey(lower))
             {
                 return new WindowsFile(Path.GetFullPath(root + files[lower]));
             }

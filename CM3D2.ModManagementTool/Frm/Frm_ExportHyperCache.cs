@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -77,6 +78,8 @@ namespace CM3D2.ModManagementTool.Frm
             workingThread.Start();
         }
 
+        private Stopwatch watch = new Stopwatch();
+
         private void Processing()
         {
             updateStatus("작업 시작");
@@ -85,9 +88,37 @@ namespace CM3D2.ModManagementTool.Frm
             writer.Write(ModContainer.Single.rootDir);
 
             writer.Write(ModContainer.Single.FilesCount());
+            watch.Start();
             ModContainer.Single.foreachFiles(item =>
             {
+                if (watch.ElapsedMilliseconds > 1000)
+                {
+                    watch.Restart();
+                    updateStatusWithoutLog("작업중:" + item.path);
+                }
                 writer.Write(item.relativePath);
+
+                BinaryReader reader = new BinaryReader(new FileStream(item.path, FileMode.Open));
+
+                try
+                {
+                    reader.ReadString();
+                    reader.ReadInt32();
+                    string internalPath = reader.ReadString();
+                    writer.Write(Path.GetFileName(internalPath));
+                } catch(Exception ae)
+                {
+                    writer.Write("");
+                }
+
+                try
+                {
+                    reader.Close();
+                }
+                catch (Exception e)
+                {
+
+                }
             });
 
             writer.Close();
