@@ -67,7 +67,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(852, 550);
+            this.ClientSize = new System.Drawing.Size(975, 589);
             this.Controls.Add(this.btn_ShowProblemViewer);
             this.Controls.Add(this.btn_ExportHyperCache);
             this.Controls.Add(this.btn_RefreshList);

@@ -37,7 +37,7 @@ namespace CM3D2.ModManagementTool.Mod.File
             {
                 return new TexFile(rootDir, relativePath);
             }
-            else if (exten == CMExtensions.EXTENSION_MAT)
+            else if (exten == CMExtensions.EXTENSION_MAT || exten == CMExtensions.EXTENSION_MATE)
             {
                 return new MatFile(rootDir, relativePath);
             }
