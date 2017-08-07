@@ -100,6 +100,20 @@ namespace CM3D2.HyperCache
             return system.modFiles;//((CachedFileSystem) GameUty.FileSystem).modFiles;
         }
 
+        public static string GetModPath(string name)
+        {
+            string lower = name.ToLower();
+            if (system.files.ContainsKey(lower))
+            {
+                return Path.GetFullPath(system.root + system.files[lower]);
+            }
+            else
+            {
+                Console.WriteLine("GetModPath, Unmanaged mod: " + name);
+                return System.IO.Path.GetFullPath(".\\") + "Mod\\" + name;
+            }
+        }
+
         public CachedFileSystem()
         {
             system = this;
@@ -120,15 +134,12 @@ namespace CM3D2.HyperCache
 
                     if (relativePath.EndsWith(".mod"))
                     {
-                        mods.Add(Path.Combine(root, relativePath));
+                        mods.Add(Path.GetFullPath(root + relativePath));
                     }
-                    else
+                    files[Path.GetFileName(relativePath).ToLower()] = relativePath;
+                    if (internalName != "")
                     {
-                        files[Path.GetFileName(relativePath).ToLower()] = relativePath;
-                        if (internalName != "")
-                        {
-                            internalNameFiles[internalName.ToLower()] = relativePath;
-                        }
+                        internalNameFiles[internalName.ToLower()] = relativePath;
                     }
                 }
 
